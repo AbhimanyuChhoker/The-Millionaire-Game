@@ -15,3 +15,4 @@ def intro():
 
 def careerChooser():
     #TODO for 7th November: Complete this function
+    return True
