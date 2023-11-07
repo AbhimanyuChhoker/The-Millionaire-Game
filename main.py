@@ -3,8 +3,9 @@ import os
 money = 1000
 happiness = 100
 energy = 100
-career = "jobless"
-
+currentCareer = "jobless"
+careers = ["Labourer", "Shopkeeper", "Startup founder"]
+lowerCaseCareers = ["immigration officer", "teacher", "software developer", "doctor", "labourer", "shopkeeper", "Startup founder"]
 
 def intro():
     print("Welcome to The Millionaire Game!!")
@@ -15,5 +16,23 @@ def intro():
 
 def careerChooser():
     print("To earn a million dollars, you will have to get a job")
-    #TODO for 7th November: Complete this function
+    print("The available career choices are: ")
+    for career in careers:
+        print(career)
+    print("Please enter your choice:")
+    careerChoice = str(input())
+    while True:
+        if careerChoice.lower() in lowerCaseCareers:
+            currentCareer = careerChoice.lower()
+            break
+        else:
+            print("The career you entered is not valid. Please try again.")
+            print("The available career choices are: ")
+            for career in careers:
+                print(career)
+            print("Please enter your choice:")
+            careerChoice = str(input())
+    print(f"Your career choice is {currentCareer}.")
     return True
+
+careerChooser()
