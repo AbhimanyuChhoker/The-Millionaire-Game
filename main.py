@@ -35,4 +35,5 @@ def careerChooser():
     print(f"Your career choice is {currentCareer}.")
     return True
 
+intro()
 careerChooser()
