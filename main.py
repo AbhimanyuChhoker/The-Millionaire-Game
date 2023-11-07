@@ -14,5 +14,6 @@ def intro():
 
 
 def careerChooser():
+    print("To earn a million dollars, you will have to get a job")
     #TODO for 7th November: Complete this function
     return True
