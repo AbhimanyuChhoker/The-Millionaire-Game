@@ -48,6 +48,10 @@ def careerChooser():
     print(f"Your career choice is {currentCareer}.")
     return True
 
+def getJobStability(currentCareer):
+    #TODO for 7 November: Complete the function
+    return True
+
 
 intro()
 careerChooser()
