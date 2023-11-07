@@ -49,7 +49,7 @@ def careerChooser():
     return True
 
 def getJobStability(currentCareer):
-    #TODO for 7 November: Complete the function
+    #TODO for 7th November: Complete the function
     return True
 
 
