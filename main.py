@@ -4,16 +4,16 @@ money = 1000
 happiness = 100
 energy = 100
 currentCareer = "jobless"
-careers = ["Labourer", "Shopkeeper", "Startup founder"]
+careers = ["Labourer", "Shopkeeper", "Startup"]
 lowerCaseCareers = [
-    "immigration officer",
-    "teacher",
-    "software developer",
-    "doctor",
     "labourer",
     "shopkeeper",
-    "startup founder",
+    "startup "
 ]
+lowRiskCareers = ["labourer"]
+medRiskCareers = ["shopkeeper"]
+highRiskCareers = ["startup founder"]
+risk = 0
 
 
 def intro():
@@ -24,7 +24,6 @@ def intro():
     print(
         "You will get a thousand dollars to start the game with. You can choose your careers. Good Luck!"
     )
-    os.system("sleep")
 
 
 def careerChooser():
@@ -48,8 +47,14 @@ def careerChooser():
     print(f"Your career choice is {currentCareer}.")
     return True
 
+
 def getJobStability(currentCareer):
-    #TODO for 7 November: Complete the function
+    if currentCareer in lowRiskCareers:
+        risk = 0.1
+    elif currentCareer in medRiskCareers:
+        risk = 0.4
+    elif currentCareer in highRiskCareers:
+        risk = 0.7
     return True
 
 
