@@ -4,16 +4,15 @@ money = 1000
 happiness = 100
 energy = 100
 currentCareer = "jobless"
-careers = ["Labourer", "Shopkeeper", "Startup founder"]
+careers = ["Labourer", "Shopkeeper", "Startup"]
 lowerCaseCareers = [
-    "immigration officer",
-    "teacher",
-    "software developer",
-    "doctor",
     "labourer",
     "shopkeeper",
-    "startup founder",
+    "startup ",
 ]
+lowRiskCareers = ["labourer"]
+medRiskCareers = ["shopkeeper"]
+highRiskCareers = ["startup founder"]
 
 
 def intro():
@@ -48,8 +47,9 @@ def careerChooser():
     print(f"Your career choice is {currentCareer}.")
     return True
 
+
 def getJobStability(currentCareer):
-    #TODO for 8th November: Complete the function
+    # TODO for 8th November: Complete the function
     return True
 
 
