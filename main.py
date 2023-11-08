@@ -103,9 +103,6 @@ def getHouse():
 
     print(f"Your house choice is {houseOptions[houseChoice - 1]}.")
     
-def getHouseQuality(houseChoice):
-    return True
-
 
 def main():
     intro()
