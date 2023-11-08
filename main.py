@@ -1,4 +1,5 @@
 import os
+import random
 
 money = 1000
 happiness = 100
@@ -10,6 +11,7 @@ lowRiskCareers = ["labourer"]
 medRiskCareers = ["shopkeeper"]
 highRiskCareers = ["startup founder"]
 risk = 0
+
 
 
 def intro():
@@ -54,6 +56,35 @@ def getJobStability(currentCareer):
     return True
 
 
+def rentHouse():
+    return Pass
+    
+
+def getHouseOptions(numOfOptions):
+    houseOptions = []
+    roomOptions = [1, 2, 3, 4, 5]
+    furnishedOptions = [True, False]
+    minRent = 500
+    maxRent = 1000
+    minRentFurnished = 800
+    maxRentFurnished = 2000
+
+    for i in range(numOfOptions):
+        num_rooms = random.choice(room_options)
+        is_furnished = random.choice(furnished_options)
+        rent = random.randint(min_rent, max_rent)
+        
+        house = {
+            "Number of Rooms": num_rooms,
+            "Fully Furnished": is_furnished,
+            "Rent (per month)": rent
+        }
+        
+        house_options.append(house)
+
+    return house_options
+
 def main():
     intro()
     getJobStability(currentCareer)
+
