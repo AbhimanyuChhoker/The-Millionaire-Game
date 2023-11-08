@@ -102,7 +102,7 @@ def getHouse():
             break
 
     print(f"Your house choice is {houseOptions[houseChoice - 1]}.")
-    
+
 
 def main():
     intro()
