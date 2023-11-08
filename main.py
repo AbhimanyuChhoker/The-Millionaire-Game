@@ -1,15 +1,12 @@
 import os
+import random
 
 money = 1000
 happiness = 100
 energy = 100
 currentCareer = "jobless"
-careers = ["Labourer", "Shopkeeper", "Startup"]
-lowerCaseCareers = [
-    "labourer",
-    "shopkeeper",
-    "startup "
-]
+careers = ["Labourer", "Shopkeeper", "Startup founder"]
+lowerCaseCareers = ["labourer", "shopkeeper", "startup founder"]
 lowRiskCareers = ["labourer"]
 medRiskCareers = ["shopkeeper"]
 highRiskCareers = ["startup founder"]
@@ -58,5 +55,60 @@ def getJobStability(currentCareer):
     return True
 
 
-intro()
-careerChooser()
+def getHouseOptions(numOfOptions):
+    houseOptions = []
+    roomOptions = [1, 2, 3, 4, 5]
+    furnishedOptions = [True, False]
+    minRent = 500
+    maxRent = 1000
+    minRentFurnished = 800
+    maxRentFurnished = 2000
+
+    for i in range(numOfOptions):
+        numRooms = random.choice(roomOptions)
+        isFurnished = random.choice(furnishedOptions)
+        if isFurnished:
+            rent = random.randint(minRentFurnished, maxRentFurnished)
+        else:
+            rent = random.randint(minRent, maxRent)
+
+        houseOption = f"Number of rooms: {numRooms}, Fully furnished: {isFurnished}, Rent (per month): {rent}"
+        houseOptions.append(houseOption)
+
+    return houseOptions
+
+
+def getHouse():
+    houseOptions = getHouseOptions(5)
+    print(
+        "Firstly you will have to have a house. You can rent a house first and then later in the game buy it."
+    )
+    print("The available house options are: ")
+    for house in houseOptions:
+        print(house)
+    for i, house in enumerate(houseOptions, 1):
+        print(f"House {i}: {house}")
+    print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
+    houseChoice = int(input())
+    while True:
+        if houseChoice > 5 or houseChoice < 1:
+            print("The house you entered is not valid. Please try again.")
+            print("The available house options are: ")
+            for house in houseOptions:
+                print(house)
+            print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
+            houseChoice = int(input())
+        else:
+            break
+
+    print(f"Your house choice is {houseOptions[houseChoice - 1]}.")
+
+
+def main():
+    intro()
+    careerChooser()
+    getJobStability(currentCareer)
+    getHouse()
+
+
+main()
