@@ -89,19 +89,24 @@ def getHouse():
     for i, house in enumerate(houseOptions, 1):
         print(f"House {i}: {house}")
     print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
-    houseChoice = int(input())
+    houseChoiceNum = int(input())
     while True:
-        if houseChoice > 5 or houseChoice < 1:
+        if houseChoiceNum > 5 or houseChoiceNum < 1:
             print("The house you entered is not valid. Please try again.")
             print("The available house options are: ")
             for house in houseOptions:
                 print(house)
             print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
-            houseChoice = int(input())
+            houseChoiceNum = int(input())
         else:
             break
+    houseChoice = houseOptions[houseChoiceNum - 1]
+    print(f"Your house choice is {houseChoice}.")
 
-    print(f"Your house choice is {houseOptions[houseChoice - 1]}.")
+
+def getHouseRent(houseChoice):
+    houseChoiceList = houseChoice.split()
+    rent = houseChoiceList[-1]
 
 
 def main():
