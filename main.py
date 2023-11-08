@@ -5,11 +5,7 @@ happiness = 100
 energy = 100
 currentCareer = "jobless"
 careers = ["Labourer", "Shopkeeper", "Startup"]
-lowerCaseCareers = [
-    "labourer",
-    "shopkeeper",
-    "startup "
-]
+lowerCaseCareers = ["labourer", "shopkeeper", "startup "]
 lowRiskCareers = ["labourer"]
 medRiskCareers = ["shopkeeper"]
 highRiskCareers = ["startup founder"]
@@ -58,5 +54,6 @@ def getJobStability(currentCareer):
     return True
 
 
-intro()
-careerChooser()
+def main():
+    intro()
+    getJobStability(currentCareer)
