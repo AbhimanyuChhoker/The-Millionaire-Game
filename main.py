@@ -84,8 +84,6 @@ def getHouse():
         "Firstly you will have to have a house. You can rent a house first and then later in the game buy it."
     )
     print("The available house options are: ")
-    for house in houseOptions:
-        print(house)
     for i, house in enumerate(houseOptions, 1):
         print(f"House {i}: {house}")
     print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
@@ -99,21 +97,24 @@ def getHouse():
             print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
             houseChoiceNum = int(input())
         else:
+            houseChoice = houseOptions[houseChoiceNum - 1]
+            print(f"Your house choice is {houseChoice}.")
             break
-    houseChoice = houseOptions[houseChoiceNum - 1]
-    print(f"Your house choice is {houseChoice}.")
+    return houseChoice
 
 
 def getHouseRent(houseChoice):
     houseChoiceList = houseChoice.split()
     rent = houseChoiceList[-1]
+    return rent
 
 
 def main():
     intro()
     careerChooser()
     getJobStability(currentCareer)
-    getHouse()
+    houseChoice = getHouse()
+    rent = getHouseRent(houseChoice)
 
 
 main()
