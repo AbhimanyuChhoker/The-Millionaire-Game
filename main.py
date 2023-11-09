@@ -111,6 +111,11 @@ def getHouseRent(houseChoice):
     rent = houseChoiceList[-1]
     return rent
 
+def workingDay():
+    if day == 0:
+        print("This is your first working day. You currently don't have any means of transport. You can take a cab.")
+        
+    return True
 
 def main():
     intro()
