@@ -11,6 +11,10 @@ lowRiskCareers = ["labourer"]
 medRiskCareers = ["shopkeeper"]
 highRiskCareers = ["startup founder"]
 risk = 0
+day = 0
+month = 0
+year = 2023
+age = 18
 
 
 def intro():
@@ -21,6 +25,10 @@ def intro():
     print(
         "You will get a thousand dollars to start the game with. You can choose your careers. Good Luck!"
     )
+
+def updateTime(day, month, year, age):
+    return True
+    
 
 
 def careerChooser():
@@ -43,7 +51,6 @@ def careerChooser():
             careerChoice = str(input())
     print(f"Your career choice is {currentCareer}.")
     return True
-
 
 def getJobStability(currentCareer):
     if currentCareer in lowRiskCareers:
@@ -81,9 +88,10 @@ def getHouseOptions(numOfOptions):
 def getHouse():
     houseOptions = getHouseOptions(5)
     print(
-        "Firstly you will have to have a house. You can rent a house first and then later in the game buy it."
+        "Firstly you will have to have a house. You can rent a house first and then later in the game buy it. It will take the broker around two days to search for a house."
     )
     print("The available house options are: ")
+    day += 1
     for i, house in enumerate(houseOptions, 1):
         print(f"House {i}: {house}")
     print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
