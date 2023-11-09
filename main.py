@@ -27,7 +27,7 @@ def intro():
         "You will get a thousand dollars to start the game with. You can choose your careers. Good Luck!"
     )
 
-def updateTime(day, month, year, age):
+def updateTime(day, month, year, age, time):
     return True
     
 
