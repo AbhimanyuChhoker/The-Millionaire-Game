@@ -12,10 +12,8 @@ medRiskCareers = ["shopkeeper"]
 highRiskCareers = ["startup founder"]
 risk = 0
 day = 0
-month = 0
-year = 2023
 age = 18
-time = 7000
+yearsBeforeRetirement = 60 - age
 
 
 def intro():
@@ -26,11 +24,6 @@ def intro():
     print(
         "You will get a thousand dollars to start the game with. You can choose your careers. Good Luck!"
     )
-
-
-def updateTime(day, month, year, age, time):
-    return True
-
 
 def careerChooser():
     print("To earn a million dollars, you will have to get a job")
