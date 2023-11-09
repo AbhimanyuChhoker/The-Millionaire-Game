@@ -15,6 +15,7 @@ day = 0
 month = 0
 year = 2023
 age = 18
+time = 7000
 
 
 def intro():
