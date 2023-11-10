@@ -7,6 +7,8 @@ NUM_HOUSE_OPTIONS = 5
 money = 1000
 happiness = 100
 energy = 100
+work_efficiency = 1
+time = 0700
 current_career = "jobless"
 careers = ["Startup founder", "Software Developer"]
 lower_case_careers = ["startup founder", "software developer"]
@@ -35,12 +37,6 @@ travel_costs = {
 }
 
 
-class Player:
-    def __init__(self, money, happiness, energy, current_career):
-        self.money = money
-        self.happiness = happiness
-        self.energy = energy
-        self.current_career = current_career
 
 
 def intro():
@@ -78,11 +74,8 @@ def get_job_stability(current_career):
     global risk
     if current_career in low_risk_careers:
         risk = 0.1
-    elif current_career in med_risk_careers:
-        risk = 0.4
     elif current_career in high_risk_careers:
         risk = 0.7
-    return True
 
 
 def get_house_options(num_of_options):
@@ -160,9 +153,13 @@ def book_cab(money, destination):
             f"Insufficient funds. You need at least {cost_of_travel} money to travel to {destination}."
         )
 
+def work():
+    print("Working")
+    time_taken = 0800 / work_efficiency
+    time = time + time_taken
 
 def working_day():
-    if day == 0:
+    if day == 0 and current_career != "startup founder":
         print(
             "This is your first working day. You currently don't have any means of transport. You can take a cab."
         )
@@ -174,9 +171,8 @@ def working_day():
 
 def main():
     intro()
-    player = Player(money=1000, happiness=100, energy=100, current_career="jobless")
     career_chooser()
-    get_job_stability(player.current_career)
+    get_job_stability(current_career)
     house_choice = get_house()
     rent = get_house_rent(house_choice)
 
