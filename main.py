@@ -14,6 +14,14 @@ risk = 0
 day = 0
 age = 18
 yearsBeforeRetirement = 60 - age
+places = [
+    "home",
+    "office",
+    "friend's house",
+    "petrol pump",
+    "grocery store",
+    "supermarket",
+]
 
 
 def intro():
@@ -24,6 +32,7 @@ def intro():
     print(
         "You will get a thousand dollars to start the game with. You can choose your careers. Good Luck!"
     )
+
 
 def careerChooser():
     print("To earn a million dollars, you will have to get a job")
@@ -111,11 +120,15 @@ def getHouseRent(houseChoice):
     rent = houseChoiceList[-1]
     return rent
 
+
 def workingDay():
     if day == 0:
-        print("This is your first working day. You currently don't have any means of transport. You can take a cab.")
-        
+        print(
+            "This is your first working day. You currently don't have any means of transport. You can take a cab."
+        )
+
     return True
+
 
 def main():
     intro()
