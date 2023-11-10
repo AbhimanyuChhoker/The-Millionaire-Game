@@ -46,7 +46,9 @@ class Player:
 
 def intro():
     print("Welcome to The Millionaire Game!!")
-    print(f"In this game, you will have to earn a million dollars and retire before you are {RETIREMENT_AGE} years old.")
+    print(
+        f"In this game, you will have to earn a million dollars and retire before you are {RETIREMENT_AGE} years old."
+    )
     print("You will start the game with $1000. Choose your career wisely. Good Luck!")
 
 
@@ -110,7 +112,9 @@ def get_house_options(num_of_options):
 def get_house():
     global day
     house_options = get_house_options(NUM_HOUSE_OPTIONS)
-    print("Firstly, you will have to have a house. You can rent a house first and then later in the game buy it. It will take the broker around two days to search for a house.")
+    print(
+        "Firstly, you will have to have a house. You can rent a house first and then later in the game buy it. It will take the broker around two days to search for a house."
+    )
     print("The available house options are: ")
     day += 1
     for i, house in enumerate(house_options, 1):
@@ -153,12 +157,16 @@ def book_cab(money, destination):
         money -= cost_of_travel
         print(f"Successfully booked a cab to {destination}! Remaining money: {money}")
     else:
-        print(f"Insufficient funds. You need at least {cost_of_travel} money to travel to {destination}.")
+        print(
+            f"Insufficient funds. You need at least {cost_of_travel} money to travel to {destination}."
+        )
 
 
 def working_day():
     if day == 0:
-        print("This is your first working day. You currently don't have any means of transport. You can take a cab.")
+        print(
+            "This is your first working day. You currently don't have any means of transport. You can take a cab."
+        )
 
     return True
 
@@ -170,5 +178,6 @@ def main():
     get_job_stability(player.current_career)
     house_choice = get_house()
     rent = get_house_rent(house_choice)
+
 
 main()
