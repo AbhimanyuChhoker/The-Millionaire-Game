@@ -8,10 +8,9 @@ money = 1000
 happiness = 100
 energy = 100
 current_career = "jobless"
-careers = ["Labourer", "Shopkeeper", "Startup founder"]
-lower_case_careers = ["labourer", "shopkeeper", "startup founder"]
-low_risk_careers = ["labourer"]
-med_risk_careers = ["shopkeeper"]
+careers = ["Startup founder", "Software Developer"]
+lower_case_careers = ["startup founder", "software developer"]
+low_risk_careers = ["software developer"]
 high_risk_careers = ["startup founder"]
 risk = 0
 day = 0
@@ -167,6 +166,8 @@ def working_day():
         print(
             "This is your first working day. You currently don't have any means of transport. You can take a cab."
         )
+        book_cab(money, "office")
+        print("Now you can start working.")
 
     return True
 
