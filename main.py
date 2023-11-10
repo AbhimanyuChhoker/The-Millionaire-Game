@@ -22,6 +22,15 @@ places = [
     "grocery store",
     "supermarket",
 ]
+currentLocation = "home"
+travel_costs = {
+    "home": 0,
+    "office": 10,
+    "friend's house": 5,
+    "petrol pump": 8,
+    "grocery store": 3,
+    "supermarket": 7,
+}
 
 
 def intro():
@@ -119,6 +128,26 @@ def getHouseRent(houseChoice):
     houseChoiceList = houseChoice.split()
     rent = houseChoiceList[-1]
     return rent
+
+
+def bookCab(money, destination):
+    if destination not in places:
+        print(f"Sorry, {destination} is not a valid destination.")
+        return
+
+    if destination == currentLocation:
+        print("You are already at your destination.")
+        return
+
+    cost_of_travel = travel_costs[destination]
+
+    if money >= cost_of_travel:
+        money -= cost_of_travel
+        print(f"Successfully booked a cab to {destination}! Remaining money: {money}")
+    else:
+        print(
+            f"Insufficient funds. You need at least {cost_of_travel} money to travel to {destination}."
+        )
 
 
 def workingDay():
