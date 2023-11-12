@@ -18,7 +18,7 @@ risk = 0
 day = 0
 age = 18
 years_before_retirement = RETIREMENT_AGE - age
-places = [
+places = [  
     "home",
     "office",
     "friend's house",
@@ -35,7 +35,6 @@ travel_costs = {
     "grocery store": 3,
     "supermarket": 7,
 }
-
 
 
 
@@ -165,6 +164,8 @@ def working_day():
         )
         book_cab(money, "office")
         print("Now you can start working.")
+        work()
+
 
     return True
 
