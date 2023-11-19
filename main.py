@@ -7,17 +7,18 @@ NUM_HOUSE_OPTIONS = 5
 money = 1000
 happiness = 100
 energy = 100
+work_efficiency = 1
+time = 700
 current_career = "jobless"
-careers = ["Labourer", "Shopkeeper", "Startup founder"]
-lower_case_careers = ["labourer", "shopkeeper", "startup founder"]
-low_risk_careers = ["labourer"]
-med_risk_careers = ["shopkeeper"]
+careers = ["Startup founder", "Software Developer"]
+lower_case_careers = ["startup founder", "software developer"]
+low_risk_careers = ["software developer"]
 high_risk_careers = ["startup founder"]
 risk = 0
 day = 0
 age = 18
 years_before_retirement = RETIREMENT_AGE - age
-places = [
+places = [  
     "home",
     "office",
     "friend's house",
@@ -34,14 +35,6 @@ travel_costs = {
     "grocery store": 3,
     "supermarket": 7,
 }
-
-
-class Player:
-    def __init__(self, money, happiness, energy, current_career):
-        self.money = money
-        self.happiness = happiness
-        self.energy = energy
-        self.current_career = current_career
 
 
 def intro():
@@ -79,11 +72,8 @@ def get_job_stability(current_career):
     global risk
     if current_career in low_risk_careers:
         risk = 0.1
-    elif current_career in med_risk_careers:
-        risk = 0.4
     elif current_career in high_risk_careers:
         risk = 0.7
-    return True
 
 
 def get_house_options(num_of_options):
@@ -142,6 +132,18 @@ def get_house_rent(house_choice):
     return rent
 
 
+def twenty_four_to_twelve_hour(time):
+    hours = time // 100
+    minutes = time % 100
+    time_period = "AM"
+    if hours >= 12:
+        time_period = "PM"
+        if hours > 12:
+            hours -= 12
+    twelve_hour_time = f"{int(hours):02d}:{minutes:02d} {time_period}"
+    return twelve_hour_time
+
+
 def book_cab(money, destination):
     if destination not in places:
         print(f"Sorry, {destination} is not a valid destination.")
@@ -162,22 +164,31 @@ def book_cab(money, destination):
         )
 
 
+def work():
+    print("Working")
+    time_taken = 800 / work_efficiency
+    global time
+    time += time_taken
+
+
 def working_day():
-    if day == 0:
+    if day == 0 and current_career != "startup founder":
         print(
             "This is your first working day. You currently don't have any means of transport. You can take a cab."
         )
+        book_cab(money, "office")
+        print("Now you can start working.")
 
     return True
 
 
 def main():
     intro()
-    player = Player(money=1000, happiness=100, energy=100, current_career="jobless")
     career_chooser()
-    get_job_stability(player.current_career)
+    get_job_stability(current_career)
     house_choice = get_house()
     rent = get_house_rent(house_choice)
+    print(twenty_four_to_twelve_hour(time))
 
 
 main()
