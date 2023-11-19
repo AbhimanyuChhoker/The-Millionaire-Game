@@ -8,7 +8,7 @@ money = 1000
 happiness = 100
 energy = 100
 work_efficiency = 1
-time = 0700
+time = 700
 current_career = "jobless"
 careers = ["Startup founder", "Software Developer"]
 lower_case_careers = ["startup founder", "software developer"]
@@ -35,8 +35,6 @@ travel_costs = {
     "grocery store": 3,
     "supermarket": 7,
 }
-
-
 
 
 def intro():
@@ -134,6 +132,18 @@ def get_house_rent(house_choice):
     return rent
 
 
+def twenty_four_to_twelve_hour(time):
+    hours = time // 100
+    minutes = time % 100
+    time_period = "AM"
+    if hours >= 12:
+        time_period = "PM"
+        if hours > 12:
+            hours -= 12
+    twelve_hour_time = f"{int(hours):02d}:{minutes:02d} {time_period}"
+    return twelve_hour_time
+
+
 def book_cab(money, destination):
     if destination not in places:
         print(f"Sorry, {destination} is not a valid destination.")
@@ -153,10 +163,13 @@ def book_cab(money, destination):
             f"Insufficient funds. You need at least {cost_of_travel} money to travel to {destination}."
         )
 
+
 def work():
     print("Working")
-    time_taken = 0800 / work_efficiency
-    time = time + time_taken
+    time_taken = 800 / work_efficiency
+    global time
+    time += time_taken
+
 
 def working_day():
     if day == 0 and current_career != "startup founder":
@@ -165,6 +178,8 @@ def working_day():
         )
         book_cab(money, "office")
         print("Now you can start working.")
+        work()
+        print("Now that you have worked, you can go home.")
 
     return True
 
@@ -175,6 +190,7 @@ def main():
     get_job_stability(current_career)
     house_choice = get_house()
     rent = get_house_rent(house_choice)
+    print(twenty_four_to_twelve_hour(time))
 
 
 main()
