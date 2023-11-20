@@ -167,7 +167,6 @@ def book_cab(money, destination):
 def work():
     print("Working")
     time_taken = 800 / work_efficiency
-    global time
     time += time_taken
 
 
@@ -178,6 +177,8 @@ def working_day():
         )
         book_cab(money, "office")
         print("Now you can start working.")
+        work()
+        print(f"Its {twenty_four_to_twelve_hour(time)} in the evening.")
 
     return True
 
