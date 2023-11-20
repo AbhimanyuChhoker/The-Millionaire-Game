@@ -180,8 +180,6 @@ def working_day():
         work()
         print(f"Its {twenty_four_to_twelve_hour(time)} in the evening.")
 
-    return True
-
 
 def main():
     intro()
