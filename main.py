@@ -18,7 +18,7 @@ risk = 0
 day = 0
 age = 18
 years_before_retirement = RETIREMENT_AGE - age
-places = [  
+places = [
     "home",
     "office",
     "friend's house",
@@ -39,10 +39,8 @@ travel_costs = {
 
 def intro():
     print("Welcome to The Millionaire Game!!")
-    print(
-        f"In this game, you will have to earn a million dollars and retire before you are {RETIREMENT_AGE} years old."
-    )
-    print("You will start the game with $1000. Choose your career wisely. Good Luck!")
+    print(f"In this game, you will have to earn a million dollars and retire before you are {RETIREMENT_AGE} years old.")
+    print(f"You will start the game with $1000. Choose your career wisely. Good Luck!")
 
 
 def career_chooser():
@@ -51,21 +49,13 @@ def career_chooser():
     print("The available career choices are: ")
     for career in careers:
         print(career)
-    print("Please enter your choice:")
-    career_choice = str(input())
     while True:
+        career_choice = str(input("Please enter your choice: "))
         if career_choice.lower() in lower_case_careers:
             current_career = career_choice.lower()
             break
         else:
             print("The career you entered is not valid. Please try again.")
-            print("The available career choices are: ")
-            for career in careers:
-                print(career)
-            print("Please enter your choice:")
-            career_choice = str(input())
-    print(f"Your career choice is {current_career}.")
-    return True
 
 
 def get_job_stability(current_career):
@@ -85,15 +75,13 @@ def get_house_options(num_of_options):
     min_rent_furnished = 800
     max_rent_furnished = 2000
 
-    for i in range(num_of_options):
+    for _ in range(num_of_options):
         num_rooms = random.choice(room_options)
         is_furnished = random.choice(furnished_options)
-        if is_furnished:
-            rent = random.randint(min_rent_furnished, max_rent_furnished)
-        else:
-            rent = random.randint(min_rent, max_rent)
+        rent = random.randint(min_rent_furnished if is_furnished else min_rent,
+                              max_rent_furnished if is_furnished else max_rent)
 
-        house_option = f"Number of rooms: {num_rooms}, Fully furnished: {is_furnished}, Rent (per month): {rent}"
+        house_option = {"num_rooms": num_rooms, "is_furnished": is_furnished, "rent": rent}
         house_options.append(house_option)
 
     return house_options
@@ -102,44 +90,30 @@ def get_house_options(num_of_options):
 def get_house():
     global day
     house_options = get_house_options(NUM_HOUSE_OPTIONS)
-    print(
-        "Firstly, you will have to have a house. You can rent a house first and then later in the game buy it. It will take the broker around two days to search for a house."
-    )
+    print("Firstly, you will have to have a house. You can rent a house first and then later in the game buy it. "
+          "It will take the broker around two days to search for a house.")
     print("The available house options are: ")
     day += 1
     for i, house in enumerate(house_options, 1):
         print(f"House {i}: {house}")
-    print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
-    house_choice_num = int(input())
+
     while True:
-        if house_choice_num > NUM_HOUSE_OPTIONS or house_choice_num < 1:
-            print("The house you entered is not valid. Please try again.")
-            print("The available house options are: ")
-            for house in house_options:
-                print(house)
-            print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
-            house_choice_num = int(input())
-        else:
-            house_choice = house_options[house_choice_num - 1]
-            print(f"Your house choice is {house_choice}.")
+        house_choice_num = int(input("Please enter your house choice number [1, 2, 3, 4, 5]: "))
+        if 1 <= house_choice_num <= NUM_HOUSE_OPTIONS:
+            selected_house = house_options[house_choice_num - 1]
+            print(f"Your house choice is {selected_house}.")
             break
-    return house_choice
+        else:
+            print("The house you entered is not valid. Please try again.")
 
-
-def get_house_rent(house_choice):
-    house_choice_list = house_choice.split()
-    rent = house_choice_list[-1]
-    return rent
+    return selected_house
 
 
 def twenty_four_to_twelve_hour(time):
-    hours = time // 100
-    minutes = time % 100
-    time_period = "AM"
-    if hours >= 12:
-        time_period = "PM"
-        if hours > 12:
-            hours -= 12
+    hours, minutes = divmod(time, 100)
+    time_period = "AM" if hours < 12 else "PM"
+    if hours > 12:
+        hours -= 12
     twelve_hour_time = f"{int(hours):02d}:{minutes:02d} {time_period}"
     return twelve_hour_time
 
@@ -159,35 +133,37 @@ def book_cab(money, destination):
         money -= cost_of_travel
         print(f"Successfully booked a cab to {destination}! Remaining money: {money}")
     else:
-        print(
-            f"Insufficient funds. You need at least {cost_of_travel} money to travel to {destination}."
-        )
+        print(f"Insufficient funds. You need at least {cost_of_travel} money to travel to {destination}.")
 
 
 def work():
+    global time
     print("Working")
-    time_taken = 800 / work_efficiency
+    time_taken = 800 / work_efficiency 
     time += time_taken
 
 
 def working_day():
+    global current_location
     if day == 0 and current_career != "startup founder":
-        print(
-            "This is your first working day. You currently don't have any means of transport. You can take a cab."
-        )
+        print("This is your first working day. You currently don't have any means of transport. You can take a cab.")
         book_cab(money, "office")
         print("Now you can start working.")
         work()
-        print(f"Its {twenty_four_to_twelve_hour(time)} in the evening.")
 
+ 
+        print(f"It's {twenty_four_to_twelve_hour(time)} in the evening.")
+        current_location = "office"
 
 def main():
     intro()
     career_chooser()
     get_job_stability(current_career)
-    house_choice = get_house()
-    rent = get_house_rent(house_choice)
-    print(twenty_four_to_twelve_hour(time))
+    selected_house = get_house()
+    print(f"Selected house details: {selected_house}")
+    print(f"It's {twenty_four_to_twelve_hour(time)} now.")
+    working_day()
 
 
-main()
+if __name__ == "__main__":
+    main()
