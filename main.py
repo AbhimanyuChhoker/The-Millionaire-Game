@@ -184,7 +184,6 @@ def working_day():
         current_location = "office"
 
 def main():
-    intro()
     career_chooser()
     get_job_stability(current_career)
     selected_house = get_house()
