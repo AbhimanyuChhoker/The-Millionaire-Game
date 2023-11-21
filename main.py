@@ -165,7 +165,8 @@ def book_cab(money, destination):
 def work():
     global hours, minutes
     print("Working")
-    minutes += WORK_TIME
+    time_taken = WORK_TIME * work_efficiency
+    minutes += time_taken
     hours += minutes // 60
     minutes %= 60
 
