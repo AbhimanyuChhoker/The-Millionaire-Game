@@ -150,9 +150,10 @@ def working_day():
         book_cab(money, "office")
         print("Now you can start working.")
         work()
+
+ 
         print(f"It's {twenty_four_to_twelve_hour(time)} in the evening.")
         current_location = "office"
-
 
 def main():
     intro()
