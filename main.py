@@ -3,12 +3,14 @@ import random
 
 RETIREMENT_AGE = 60
 NUM_HOUSE_OPTIONS = 5
+WORK_TIME = 8
 
 # Initial game state
 money = 1000
 happiness = 100
 energy = 100
 work_efficiency = 1
+
 time = 700
 current_career = "jobless"
 careers = ["Startup founder", "Software Developer"]
@@ -41,8 +43,11 @@ travel_costs = {
 
 # Print welcome message and game instructions
 print("Welcome to The Millionaire Game!!")
-print(f"In this game, you will have to earn a million dollars and retire before you are {RETIREMENT_AGE} years old.")
+print(
+    f"In this game, you will have to earn a million dollars and retire before you are {RETIREMENT_AGE} years old."
+)
 print(f"You will start the game with $1000. Choose your career wisely. Good Luck!")
+
 
 def get_user_input(prompt, valid_choices):
     """Gets user input with validation."""
@@ -52,6 +57,7 @@ def get_user_input(prompt, valid_choices):
             return user_input.lower()
         else:
             print(f"The {user_input} you entered is not valid. Please try again.")
+
 
 def career_chooser():
     """Allows the user to choose a career."""
@@ -70,6 +76,7 @@ def career_chooser():
     print(f"Your career choice is {current_career}.")
     return True
 
+
 # Set the risk factor based on the chosen career
 def get_job_stability(current_career):
     global risk
@@ -77,6 +84,7 @@ def get_job_stability(current_career):
         risk = 0.1
     elif current_career in high_risk_careers:
         risk = 0.7
+
 
 # Generate house options with random attributes
 def get_house_options(num_of_options):
@@ -105,10 +113,12 @@ def get_house_options(num_of_options):
 
     return house_options
 
+
 # Display the available house options
 def display_houses(house_options):
     for i, house in enumerate(house_options, 1):
         print(f"House {i}: {house}")
+
 
 # Allow the user to choose a house from the available options
 def get_house():
@@ -140,6 +150,7 @@ def twenty_four_to_twelve_hour(time):
         hours -= 12
     return f"{int(hours):02d}:{minutes:02d} {time_period}"
 
+
 # Book a cab to the specified destination and update the money
 def book_cab(money, destination):
     if destination not in places:
@@ -160,6 +171,7 @@ def book_cab(money, destination):
             f"Insufficient funds. You need at least {cost_of_travel} money to travel to {destination}."
         )
 
+
 # Simulate work by updating the time
 def work():
     global time
@@ -174,14 +186,16 @@ def work():
 def working_day():
     global current_location
     if day == 0 and current_career != "startup founder":
-        print("This is your first working day. You currently don't have any means of transport. You can take a cab.")
+        print(
+            "This is your first working day. You currently don't have any means of transport. You can take a cab."
+        )
         book_cab(money, "office")
         print("Now you can start working.")
         work()
 
- 
         print(f"It's {twenty_four_to_twelve_hour(time)} in the evening.")
         current_location = "office"
+
 
 def main():
     career_chooser()
