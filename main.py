@@ -3,12 +3,14 @@ import random
 
 RETIREMENT_AGE = 60
 NUM_HOUSE_OPTIONS = 5
+WORK_TIME = 800  # Assuming 800 minutes of work
 
 money = 1000
 happiness = 100
 energy = 100
 work_efficiency = 1
-time = 700
+hours = 7
+minutes = 0
 current_career = "jobless"
 careers = ["Startup founder", "Software Developer"]
 lower_case_careers = ["startup founder", "software developer"]
@@ -109,8 +111,7 @@ def get_house():
     return selected_house
 
 
-def twenty_four_to_twelve_hour(time):
-    hours, minutes = divmod(time, 100)
+def twenty_four_to_twelve_hour(hours, minutes):
     time_period = "AM" if hours < 12 else "PM"
     if hours > 12:
         hours -= 12
@@ -137,10 +138,12 @@ def book_cab(money, destination):
 
 
 def work():
-    global time
+    global hours, minutes
     print("Working")
-    time_taken = 800 / work_efficiency 
-    time += time_taken
+    time_taken = WORK_TIME
+    minutes += time_taken
+    hours += minutes // 60
+    minutes %= 60
 
 
 def working_day():
@@ -150,10 +153,9 @@ def working_day():
         book_cab(money, "office")
         print("Now you can start working.")
         work()
-
- 
-        print(f"It's {twenty_four_to_twelve_hour(time)} in the evening.")
+        print(f"It's {twenty_four_to_twelve_hour(hours, minutes)} in the evening.")
         current_location = "office"
+
 
 def main():
     intro()
@@ -161,7 +163,7 @@ def main():
     get_job_stability(current_career)
     selected_house = get_house()
     print(f"Selected house details: {selected_house}")
-    print(f"It's {twenty_four_to_twelve_hour(time)} now.")
+    print(f"It's {twenty_four_to_twelve_hour(hours, minutes)} now.")
     working_day()
 
 
