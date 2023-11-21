@@ -5,6 +5,7 @@ RETIREMENT_AGE = 60
 NUM_HOUSE_OPTIONS = 5
 WORK_TIME = 800  # Assuming 800 minutes of work
 
+# Initial game state
 money = 1000
 happiness = 100
 energy = 100
@@ -20,6 +21,8 @@ risk = 0
 day = 0
 age = 18
 years_before_retirement = RETIREMENT_AGE - age
+
+# Locations and travel costs
 places = [
     "home",
     "office",
@@ -38,16 +41,13 @@ travel_costs = {
     "supermarket": 7,
 }
 
-
-def intro():
-    print("Welcome to The Millionaire Game!!")
-    print(
-        f"In this game, you will have to earn a million dollars and retire before you are {RETIREMENT_AGE} years old."
-    )
-    print(f"You will start the game with $1000. Choose your career wisely. Good Luck!")
-
+# Print welcome message and game instructions
+print("Welcome to The Millionaire Game!!")
+print(f"In this game, you will have to earn a million dollars and retire before you are {RETIREMENT_AGE} years old.")
+print(f"You will start the game with $1000. Choose your career wisely. Good Luck!")
 
 def get_user_input(prompt, valid_choices):
+    """Gets user input with validation."""
     while True:
         user_input = input(prompt)
         if user_input.lower() in valid_choices:
@@ -55,8 +55,8 @@ def get_user_input(prompt, valid_choices):
         else:
             print(f"The {user_input} you entered is not valid. Please try again.")
 
-
 def career_chooser():
+    """Allows the user to choose a career."""
     global current_career
     print("To earn a million dollars, you will have to get a job")
     print("The available career choices are: ")
@@ -72,7 +72,7 @@ def career_chooser():
     print(f"Your career choice is {current_career}.")
     return True
 
-
+# Set the risk factor based on the chosen career
 def get_job_stability(current_career):
     global risk
     if current_career in low_risk_careers:
@@ -80,7 +80,7 @@ def get_job_stability(current_career):
     elif current_career in high_risk_careers:
         risk = 0.7
 
-
+# Generate house options with random attributes
 def get_house_options(num_of_options):
     house_options = []
     room_options = [1, 2, 3, 4, 5]
@@ -107,12 +107,12 @@ def get_house_options(num_of_options):
 
     return house_options
 
-
+# Display the available house options
 def display_houses(house_options):
     for i, house in enumerate(house_options, 1):
         print(f"House {i}: {house}")
 
-
+# Allow the user to choose a house from the available options
 def get_house():
     global day
     house_options = get_house_options(NUM_HOUSE_OPTIONS)
@@ -134,14 +134,14 @@ def get_house():
     print(f"Your house choice is {selected_house}.")
     return selected_house
 
-
+# Convert 24-hour time to 12-hour time and return the formatted string
 def twenty_four_to_twelve_hour(hours, minutes):
     time_period = "AM" if hours < 12 else "PM"
     if hours > 12:
         hours -= 12
     return f"{int(hours):02d}:{minutes:02d} {time_period}"
 
-
+# Book a cab to the specified destination and update the money
 def book_cab(money, destination):
     if destination not in places:
         print(f"Sorry, {destination} is not a valid destination.")
@@ -161,38 +161,11 @@ def book_cab(money, destination):
             f"Insufficient funds. You need at least {cost_of_travel} money to travel to {destination}."
         )
 
-
+# Simulate work by updating the time
 def work():
     global hours, minutes
     print("Working")
     time_taken = WORK_TIME * work_efficiency
     minutes += time_taken
     hours += minutes // 60
-    minutes %= 60
-
-
-def working_day():
-    global current_location
-    if day == 0 and current_career != "startup founder":
-        print(
-            "This is your first working day. You currently don't have any means of transport. You can take a cab."
-        )
-        book_cab(money, "office")
-        print("Now you can start working.")
-        work()
-        print(f"It's {twenty_four_to_twelve_hour(hours, minutes)} in the evening.")
-        current_location = "office"
-
-
-def main():
-    intro()
-    career_chooser()
-    get_job_stability(current_career)
-    selected_house = get_house()
-    print(f"Selected house details: {selected_house}")
-    print(f"It's {twenty_four_to_twelve_hour(hours, minutes)} now.")
-    working_day()
-
-
-if __name__ == "__main__":
-    main()
+    minutes
