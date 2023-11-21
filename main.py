@@ -38,12 +38,18 @@ travel_costs = {
     "supermarket": 7,
 }
 
-
 def intro():
     print("Welcome to The Millionaire Game!!")
     print(f"In this game, you will have to earn a million dollars and retire before you are {RETIREMENT_AGE} years old.")
     print(f"You will start the game with $1000. Choose your career wisely. Good Luck!")
 
+def get_user_input(prompt, valid_choices):
+    while True:
+        user_input = input(prompt)
+        if user_input.lower() in valid_choices:
+            return user_input.lower()
+        else:
+            print(f"The {user_input} you entered is not valid. Please try again.")
 
 def career_chooser():
     global current_career
@@ -52,13 +58,14 @@ def career_chooser():
     for career in careers:
         print(career)
     while True:
-        career_choice = str(input("Please enter your choice: "))
-        if career_choice.lower() in lower_case_careers:
-            current_career = career_choice.lower()
+        career_choice = get_user_input("Please enter your choice: ", lower_case_careers)
+        if career_choice in lower_case_careers:
+            current_career = career_choice
             break
         else:
-            print("The career you entered is not valid. Please try again.")
-
+            print(f"The {career_choice} you entered is not valid. Please try again.")
+    print(f"Your career choice is {current_career}.")
+    return True
 
 def get_job_stability(current_career):
     global risk
@@ -88,6 +95,9 @@ def get_house_options(num_of_options):
 
     return house_options
 
+def display_houses(house_options):
+    for i, house in enumerate(house_options, 1):
+        print(f"House {i}: {house}")
 
 def get_house():
     global day
@@ -96,28 +106,18 @@ def get_house():
           "It will take the broker around two days to search for a house.")
     print("The available house options are: ")
     day += 1
-    for i, house in enumerate(house_options, 1):
-        print(f"House {i}: {house}")
+    display_houses(house_options)
 
-    while True:
-        house_choice_num = int(input("Please enter your house choice number [1, 2, 3, 4, 5]: "))
-        if 1 <= house_choice_num <= NUM_HOUSE_OPTIONS:
-            selected_house = house_options[house_choice_num - 1]
-            print(f"Your house choice is {selected_house}.")
-            break
-        else:
-            print("The house you entered is not valid. Please try again.")
-
+    house_choice_num = int(get_user_input("Please enter your house choice number [1, 2, 3, 4, 5]: ", range(1, NUM_HOUSE_OPTIONS + 1)))
+    selected_house = house_options[house_choice_num - 1]
+    print(f"Your house choice is {selected_house}.")
     return selected_house
-
 
 def twenty_four_to_twelve_hour(hours, minutes):
     time_period = "AM" if hours < 12 else "PM"
     if hours > 12:
         hours -= 12
-    twelve_hour_time = f"{int(hours):02d}:{minutes:02d} {time_period}"
-    return twelve_hour_time
-
+    return f"{int(hours):02d}:{minutes:02d} {time_period}"
 
 def book_cab(money, destination):
     if destination not in places:
@@ -136,15 +136,12 @@ def book_cab(money, destination):
     else:
         print(f"Insufficient funds. You need at least {cost_of_travel} money to travel to {destination}.")
 
-
 def work():
     global hours, minutes
     print("Working")
-    time_taken = WORK_TIME
-    minutes += time_taken
+    minutes += WORK_TIME
     hours += minutes // 60
     minutes %= 60
-
 
 def working_day():
     global current_location
@@ -156,7 +153,6 @@ def working_day():
         print(f"It's {twenty_four_to_twelve_hour(hours, minutes)} in the evening.")
         current_location = "office"
 
-
 def main():
     intro()
     career_chooser()
@@ -165,7 +161,6 @@ def main():
     print(f"Selected house details: {selected_house}")
     print(f"It's {twenty_four_to_twelve_hour(hours, minutes)} now.")
     working_day()
-
 
 if __name__ == "__main__":
     main()
