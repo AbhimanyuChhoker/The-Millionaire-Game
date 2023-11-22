@@ -49,6 +49,8 @@ print(
 print(f"You will start the game with $1000. Choose your career wisely. Good Luck!")
 
 
+
+#! Does not work
 def get_user_input(prompt, valid_choices):
     """Gets user input with validation."""
     while True:
@@ -56,7 +58,7 @@ def get_user_input(prompt, valid_choices):
         if user_input.lower() in valid_choices:
             return user_input.lower()
         else:
-            print(f"The {user_input} you entered is not valid. Please try again.")
+            print(f"That choice is not valid. Please try again.")
 
 
 def career_chooser():
@@ -85,6 +87,7 @@ def get_job_stability(current_career):
     elif current_career in high_risk_careers:
         risk = 0.7
 
+#! House functionality does not work
 def get_house_options(num_of_options):
     house_options = []
     room_options = [1, 2, 3, 4, 5]
@@ -108,32 +111,43 @@ def get_house_options(num_of_options):
     return house_options
 
  
-#TODO: To be fixed
-# def get_house():
-#     global day
-#     house_options = get_house_options(NUM_HOUSE_OPTIONS)
-#     print(
-#         "Firstly, you will have to have a house. You can rent a house first and then later in the game buy it. It will take the broker around two days to search for a house."
-#     )
-#     print("The available house options are: ")
-#     day += 1
-#     for i, house in enumerate(house_options, 1):
-#         print(f"House {i}: {house}")
-#     print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
-#     house_choice_num = int(input())
-#     while True:
-#         if house_choice_num > NUM_HOUSE_OPTIONS or house_choice_num < 1:
-#             print("The house you entered is not valid. Please try again.")
-#             print("The available house options are: ")
-#             for house in house_options:
-#                 print(house)
-#             print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
-#             house_choice_num = int(input())
-#         else:
-#             house_choice = house_options[house_choice_num - 1]
-#             print(f"Your house choice is {house_choice}.")
-#             break
-#     return house_choice
+def get_house():
+    global day
+    house_options = get_house_options(NUM_HOUSE_OPTIONS)
+    print(
+        "Firstly, you will have to have a house. You can rent a house first and then later in the game buy it. It will take the broker around two days to search for a house."
+    )
+    print("The available house options are: ")
+    day += 1
+    for i, house in enumerate(house_options, 1):
+        print(f"House {i}: {house}")
+    print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
+    house_choice_num = int(input())
+    while True:
+        if house_choice_num > NUM_HOUSE_OPTIONS or house_choice_num < 1:
+            print("The house you entered is not valid. Please try again.")
+            print("The available house options are: ")
+            for house in house_options:
+                print(house)
+            print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
+            house_choice_num = int(input())
+        else:
+            house_choice = house_options[house_choice_num - 1]
+            print(f"Your house choice is {house_choice}.")
+            break
+    return house_choice
+
+def getHouse(day):
+    house_options = get_house_options(NUM_HOUSE_OPTIONS)
+    print("Firstly, you will have to get a house. You can rent a house first and then later in the game you can buy it. It will take the broker around two days for search for a house.")
+    day += 2
+    print("The available house options are: ")
+    for house in house_options:
+        print(f"House 1 - Rent: {house[-1]}, Is Furnished: {house[1]}, Number of Rooms:{house[0]}")
+    print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
+    house_choice_num = get_user_input("Please enter your house choice number[1, 2, 3, 4, 5]: ",valid_choices=[1, 2, 3, 4, 5])
+    house = house_options[house_choice_num - 1]
+    return house  
 
 
 def get_house_rent(house_choice):
@@ -205,7 +219,7 @@ def main():
     career_chooser()
     get_job_stability(current_career)
     global selected_house
-    selected_house = get_house()
+    selected_house = getHouse(day)
     print(f"Selected house details: {selected_house}")
     print(f"It's {twenty_four_to_twelve_hour(time)} now.")
     working_day()
