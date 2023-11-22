@@ -85,8 +85,6 @@ def get_job_stability(current_career):
     elif current_career in high_risk_careers:
         risk = 0.7
 
-
-# Generate house options with random attributes
 def get_house_options(num_of_options):
     house_options = []
     room_options = [1, 2, 3, 4, 5]
@@ -96,53 +94,59 @@ def get_house_options(num_of_options):
     min_rent_furnished = 800
     max_rent_furnished = 2000
 
-    for _ in range(num_of_options):
+    for i in range(num_of_options):
         num_rooms = random.choice(room_options)
         is_furnished = random.choice(furnished_options)
-        rent = random.randint(
-            min_rent_furnished if is_furnished else min_rent,
-            max_rent_furnished if is_furnished else max_rent,
-        )
+        if is_furnished:
+            rent = random.randint(min_rent_furnished, max_rent_furnished)
+        else:
+            rent = random.randint(min_rent, max_rent)
 
-        house_option = {
-            "num_rooms": num_rooms,
-            "is_furnished": is_furnished,
-            "rent": rent,
-        }
+        house_option = [num_rooms, is_furnished, rent]
         house_options.append(house_option)
 
     return house_options
 
+ 
+#TODO: To be fixed
+# def get_house():
+#     global day
+#     house_options = get_house_options(NUM_HOUSE_OPTIONS)
+#     print(
+#         "Firstly, you will have to have a house. You can rent a house first and then later in the game buy it. It will take the broker around two days to search for a house."
+#     )
+#     print("The available house options are: ")
+#     day += 1
+#     for i, house in enumerate(house_options, 1):
+#         print(f"House {i}: {house}")
+#     print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
+#     house_choice_num = int(input())
+#     while True:
+#         if house_choice_num > NUM_HOUSE_OPTIONS or house_choice_num < 1:
+#             print("The house you entered is not valid. Please try again.")
+#             print("The available house options are: ")
+#             for house in house_options:
+#                 print(house)
+#             print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
+#             house_choice_num = int(input())
+#         else:
+#             house_choice = house_options[house_choice_num - 1]
+#             print(f"Your house choice is {house_choice}.")
+#             break
+#     return house_choice
 
-# Display the available house options
-def display_houses(house_options):
-    for i, house in enumerate(house_options, 1):
-        print(f"House {i}: {house}")
+
+def get_house_rent(house_choice):
+    house_choice_list = house_choice.split()
+    rent = house_choice_list[-1]
+    return rent
 
 
-# Allow the user to choose a house from the available options
-def get_house():
-    global day
-    house_options = get_house_options(NUM_HOUSE_OPTIONS)
-    print(
-        "Firstly, you will have to have a house. You can rent a house first and then later in the game buy it. "
-        "It will take the broker around two days to search for a house."
-    )
-    print("The available house options are: ")
-    day += 1
-    display_houses(house_options)
 
-    house_choice_num = int(
-        get_user_input(
-            "Please enter your house choice number [1, 2, 3, 4, 5]: ",
-            range(1, NUM_HOUSE_OPTIONS + 1),
-        )
-    )
-    selected_house = house_options[house_choice_num - 1]
-    print(f"Your house choice is {selected_house}.")
-    return selected_house
+# def setup_house(selected_house):
+#     isFurnished = selected_house[]
 
-
+# Convert twenty-four hour format to twelve hour format
 def twenty_four_to_twelve_hour(time):
     hours, minutes = divmod(time, 100)
     time_period = "AM" if hours < 12 else "PM"
@@ -200,6 +204,7 @@ def working_day():
 def main():
     career_chooser()
     get_job_stability(current_career)
+    global selected_house
     selected_house = get_house()
     print(f"Selected house details: {selected_house}")
     print(f"It's {twenty_four_to_twelve_hour(time)} now.")
