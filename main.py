@@ -49,14 +49,14 @@ print(
 print(f"You will start the game with $1000. Choose your career wisely. Good Luck!")
 
 
-
-#! Does not work
-def get_user_input(prompt, valid_choices):
+def get_user_input(prompt, valid_choices, value_type):
     """Gets user input with validation."""
     while True:
-        user_input = input(prompt)
-        if user_input.lower() in valid_choices:
+        user_input = if value_type=="int" int(input(prompt)) elif value_type=="str" str(input(prompt))
+        if value_type=="str" and user_input.lower() in valid_choices:
             return user_input.lower()
+        elif value_type=="int" and user_input in valid_choices:
+            return user_input
         else:
             print(f"That choice is not valid. Please try again.")
 
