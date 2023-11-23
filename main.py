@@ -155,7 +155,9 @@ def book_cab(money, destination):
             f"Insufficient funds. You need at least {cost_of_travel} money to travel to {destination}."
         )
 
-
+def buy():
+    Return True
+    #TODO: To be completed today
 
 def setup_house(selected_house):
     isFurnished = selected_house[1]
