@@ -30,6 +30,7 @@ places = [
     "petrol pump",
     "grocery store",
     "supermarket",
+    "ikea"
 ]
 current_location = "home"
 travel_costs = {
@@ -39,6 +40,7 @@ travel_costs = {
     "petrol pump": 8,
     "grocery store": 3,
     "supermarket": 7,
+    "ikea": 7
 }
 
 # Print welcome message and game instructions
@@ -110,34 +112,8 @@ def get_house_options(num_of_options):
 
     return house_options
 
- 
-def get_house():
-    global day
-    house_options = get_house_options(NUM_HOUSE_OPTIONS)
-    print(
-        "Firstly, you will have to have a house. You can rent a house first and then later in the game buy it. It will take the broker around two days to search for a house."
-    )
-    print("The available house options are: ")
-    day += 1
-    for i, house in enumerate(house_options, 1):
-        print(f"House {i}: {house}")
-    print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
-    house_choice_num = int(input())
-    while True:
-        if house_choice_num > NUM_HOUSE_OPTIONS or house_choice_num < 1:
-            print("The house you entered is not valid. Please try again.")
-            print("The available house options are: ")
-            for house in house_options:
-                print(house)
-            print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
-            house_choice_num = int(input())
-        else:
-            house_choice = house_options[house_choice_num - 1]
-            print(f"Your house choice is {house_choice}.")
-            break
-    return house_choice
 
-def getHouse(day):
+def get_house(day):
     house_options = get_house_options(NUM_HOUSE_OPTIONS)
     print("Firstly, you will have to get a house. You can rent a house first and then later in the game you can buy it. It will take the broker around two days for search for a house.")
     day += 2
@@ -149,16 +125,6 @@ def getHouse(day):
     house = house_options[house_choice_num - 1]
     return house  
 
-
-def get_house_rent(house_choice):
-    house_choice_list = house_choice.split()
-    rent = house_choice_list[-1]
-    return rent
-
-
-
-# def setup_house(selected_house):
-#     isFurnished = selected_house[]
 
 # Convert twenty-four hour format to twelve hour format
 def twenty_four_to_twelve_hour(time):
@@ -190,6 +156,17 @@ def book_cab(money, destination):
         )
 
 
+
+def setup_house(selected_house):
+    isFurnished = selected_house[1]
+    if isFurnished:
+        print("Your house is already furnished. But you will have to buy some essentials like food, clothes, etc.")
+        print("To buy that you will have to go to a supermarket.")
+        book_cab(money, "supermarket")
+        buy() # To be completed 
+        # Rest to be completed afe
+
+
 # Simulate work by updating the time
 def work():
     global time
@@ -219,9 +196,9 @@ def main():
     career_chooser()
     get_job_stability(current_career)
     global selected_house
-    selected_house = getHouse(day)
+    selected_house = get_house(day)
+    setup_house(selected_house)
     print(f"Selected house details: {selected_house}")
-    print(f"It's {twenty_four_to_twelve_hour(time)} now.")
     working_day()
 
 
