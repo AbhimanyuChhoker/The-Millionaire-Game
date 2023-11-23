@@ -145,7 +145,7 @@ def getHouse(day):
     for house in house_options:
         print(f"House 1 - Rent: {house[-1]}, Is Furnished: {house[1]}, Number of Rooms:{house[0]}")
     print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
-    house_choice_num = get_user_input("Please enter your house choice number[1, 2, 3, 4, 5]: ",valid_choices=[1, 2, 3, 4, 5])
+    house_choice_num = get_user_input("Please enter your house choice number[1, 2, 3, 4, 5]: ", valid_choices=[1, 2, 3, 4, 5])
     house = house_options[house_choice_num - 1]
     return house  
 
