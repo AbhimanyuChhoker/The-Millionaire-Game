@@ -205,8 +205,8 @@ def setup_house(selected_house):
         )
         print("To buy that you will have to go to a shop.")
         book_cab(money, "supermarket")
-        buy()  # To be completed
-        # Rest to be completed after buy() function
+        buy()
+        #TODO: To be completed
 
 
 # Simulate work by updating the time
