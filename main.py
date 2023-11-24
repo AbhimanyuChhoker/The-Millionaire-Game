@@ -43,6 +43,9 @@ travel_costs = {
     "ikea": 7
 }
 
+supermarket_items = []
+grocery_items = []
+
 # Print welcome message and game instructions
 print("Welcome to The Millionaire Game!!")
 print(
@@ -159,8 +162,8 @@ def book_cab(money, destination):
         )
 
 def buy():
+
     return True
-    #TODO: To be completed today
 
 def setup_house(selected_house):
     isFurnished = selected_house[1]
