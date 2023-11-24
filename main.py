@@ -46,6 +46,7 @@ travel_costs = {
 
 supermarket_items = {}
 grocery_items = {}
+inventory_items = {}
 
 # Print welcome message and game instructions
 print("Welcome to The Millionaire Game!!")
@@ -178,10 +179,22 @@ def buy(grocery_items, supermarket_items, money):
     )
     if shop_type.lower() == "supermarket":
         print("You can buy the following items: ")
-        for item in supermarket_items.keys():
-            print(item)
+        items = supermarket_items.keys()
+        price = supermarket_items.values()
+        for item in items:
+            print(f"{item.title()}: ${price}")
         item = get_user_input("Please enter the item you want to buy:")
-    return True
+        money -= supermarket_items[item]
+        inventory_items[item] += 1
+    elif shop_type.lower() == "grocery store":
+        print("You can buy the following items: ")
+        items = grocery_items.keys()
+        price = grocery_items.values()
+        for item in items:
+            print(f"{item.title()}: ${price}")
+        item = get_user_input("Please enter the item you want to buy:")
+        money -= grocery_items[item]
+        inventory_items[item] += 1
 
 
 def setup_house(selected_house):
