@@ -23,6 +23,7 @@ age = 18
 years_before_retirement = RETIREMENT_AGE - age
 
 # Locations and travel costs
+#TODO: Combine both travel costs and places into one dict
 places = [
     "home",
     "office",
@@ -43,8 +44,8 @@ travel_costs = {
     "ikea": 7
 }
 
-supermarket_items = []
-grocery_items = []
+supermarket_items = {}
+grocery_items = {}
 
 # Print welcome message and game instructions
 print("Welcome to The Millionaire Game!!")
@@ -57,6 +58,7 @@ print(f"You will start the game with $1000. Choose your career wisely. Good Luck
 def get_user_input(prompt, valid_choices, value_type):
     """Gets user input with validation."""
     while True:
+        user_input = input()
         if value_type == "int":
             user_input = int(input(prompt))
         elif value_type == "str":
@@ -127,7 +129,7 @@ def get_house(day):
     for house in house_options:
         print(f"House 1 - Rent: {house[-1]}, Is Furnished: {house[1]}, Number of Rooms:{house[0]}")
     print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
-    house_choice_num = get_user_input("Please enter your house choice number[1, 2, 3, 4, 5]: ", valid_choices=[1, 2, 3, 4, 5])
+    house_choice_num = get_user_input("Please enter your house choice number[1, 2, 3, 4, 5]: ", [1, 2, 3, 4, 5], "int")
     house = house_options[house_choice_num - 1]
     return house  
 
@@ -161,15 +163,21 @@ def book_cab(money, destination):
             f"Insufficient funds. You need at least {cost_of_travel} money to travel to {destination}."
         )
 
-def buy():
-
+def buy(grocery_items, supermarket_items, money):
+    shop_type = get_user_input("Please enter the shop which you want to visit[supermarket, grocery store]", ["supermarket", "grocery store"], "str")
+    if shop_type.lower() == "supermarket":
+        
+        print("You can buy the following items: ")
+        for item in supermarket_items.keys():
+            print(item)
+        item = get_user_input("Please enter the item you want to buy")
     return True
 
 def setup_house(selected_house):
     isFurnished = selected_house[1]
     if isFurnished:
         print("Your house is already furnished. But you will have to buy some essentials like food, clothes, etc.")
-        print("To buy that you will have to go to a supermarket.")
+        print("To buy that you will have to go to a shop.")
         book_cab(money, "supermarket")
         buy() # To be completed 
         # Rest to be completed afe
