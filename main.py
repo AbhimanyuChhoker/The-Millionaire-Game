@@ -54,7 +54,10 @@ print(f"You will start the game with $1000. Choose your career wisely. Good Luck
 def get_user_input(prompt, valid_choices, value_type):
     """Gets user input with validation."""
     while True:
-        user_input = if value_type=="int" int(input(prompt)) elif value_type=="str" str(input(prompt))
+        if value_type == "int":
+            user_input = int(input(prompt))
+        elif value_type == "str":
+            user_input == str(input(prompt))
         if value_type=="str" and user_input.lower() in valid_choices:
             return user_input.lower()
         elif value_type=="int" and user_input in valid_choices:
@@ -89,7 +92,7 @@ def get_job_stability(current_career):
     elif current_career in high_risk_careers:
         risk = 0.7
 
-#! House functionality does not work
+
 def get_house_options(num_of_options):
     house_options = []
     room_options = [1, 2, 3, 4, 5]
@@ -156,7 +159,7 @@ def book_cab(money, destination):
         )
 
 def buy():
-    Return True
+    return True
     #TODO: To be completed today
 
 def setup_house(selected_house):
