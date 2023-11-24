@@ -23,7 +23,7 @@ age = 18
 years_before_retirement = RETIREMENT_AGE - age
 
 # Locations and travel costs
-#TODO: Combine both travel costs and places into one dict
+# TODO: Combine both travel costs and places into one dict
 places = [
     "home",
     "office",
@@ -31,7 +31,7 @@ places = [
     "petrol pump",
     "grocery store",
     "supermarket",
-    "ikea"
+    "ikea",
 ]
 current_location = "home"
 travel_costs = {
@@ -41,7 +41,7 @@ travel_costs = {
     "petrol pump": 8,
     "grocery store": 3,
     "supermarket": 7,
-    "ikea": 7
+    "ikea": 7,
 }
 
 supermarket_items = {}
@@ -63,9 +63,9 @@ def get_user_input(prompt, valid_choices, value_type):
             user_input = int(input(prompt))
         elif value_type == "str":
             user_input == str(input(prompt))
-        if value_type=="str" and user_input.lower() in valid_choices:
+        if value_type == "str" and user_input.lower() in valid_choices:
             return user_input.lower()
-        elif value_type=="int" and user_input in valid_choices:
+        elif value_type == "int" and user_input in valid_choices:
             return user_input
         else:
             print(f"That choice is not valid. Please try again.")
@@ -123,15 +123,21 @@ def get_house_options(num_of_options):
 
 def get_house(day):
     house_options = get_house_options(NUM_HOUSE_OPTIONS)
-    print("Firstly, you will have to get a house. You can rent a house first and then later in the game you can buy it. It will take the broker around two days for search for a house.")
+    print(
+        "Firstly, you will have to get a house. You can rent a house first and then later in the game you can buy it. It will take the broker around two days for search for a house."
+    )
     day += 2
     print("The available house options are: ")
     for house in house_options:
-        print(f"House 1 - Rent: {house[-1]}, Is Furnished: {house[1]}, Number of Rooms:{house[0]}")
+        print(
+            f"House 1 - Rent: {house[-1]}, Is Furnished: {house[1]}, Number of Rooms:{house[0]}"
+        )
     print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
-    house_choice_num = get_user_input("Please enter your house choice number[1, 2, 3, 4, 5]: ", [1, 2, 3, 4, 5], "int")
+    house_choice_num = get_user_input(
+        "Please enter your house choice number[1, 2, 3, 4, 5]: ", [1, 2, 3, 4, 5], "int"
+    )
     house = house_options[house_choice_num - 1]
-    return house  
+    return house
 
 
 # Convert twenty-four hour format to twelve hour format
@@ -163,24 +169,31 @@ def book_cab(money, destination):
             f"Insufficient funds. You need at least {cost_of_travel} money to travel to {destination}."
         )
 
+
 def buy(grocery_items, supermarket_items, money):
-    shop_type = get_user_input("Please enter the shop which you want to visit[supermarket, grocery store]", ["supermarket", "grocery store"], "str")
+    shop_type = get_user_input(
+        "Please enter the shop which you want to visit[supermarket, grocery store]",
+        ["supermarket", "grocery store"],
+        "str",
+    )
     if shop_type.lower() == "supermarket":
-        
         print("You can buy the following items: ")
         for item in supermarket_items.keys():
             print(item)
-        item = get_user_input("Please enter the item you want to buy")
+        item = get_user_input("Please enter the item you want to buy:")
     return True
+
 
 def setup_house(selected_house):
     isFurnished = selected_house[1]
     if isFurnished:
-        print("Your house is already furnished. But you will have to buy some essentials like food, clothes, etc.")
+        print(
+            "Your house is already furnished. But you will have to buy some essentials like food, clothes, etc."
+        )
         print("To buy that you will have to go to a shop.")
         book_cab(money, "supermarket")
-        buy() # To be completed 
-        # Rest to be completed afe
+        buy()  # To be completed
+        # Rest to be completed after buy() function
 
 
 # Simulate work by updating the time
