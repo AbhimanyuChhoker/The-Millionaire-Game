@@ -3,11 +3,14 @@ import random
 
 RETIREMENT_AGE = 60
 NUM_HOUSE_OPTIONS = 5
+WORK_TIME = 8
 
+# Initial game state
 money = 1000
 happiness = 100
 energy = 100
 work_efficiency = 1
+
 time = 700
 current_career = "jobless"
 careers = ["Startup founder", "Software Developer"]
@@ -18,6 +21,9 @@ risk = 0
 day = 0
 age = 18
 years_before_retirement = RETIREMENT_AGE - age
+
+# Locations and travel costs
+# TODO: Combine both travel costs and places into one dict
 places = [
     "home",
     "office",
@@ -25,6 +31,7 @@ places = [
     "petrol pump",
     "grocery store",
     "supermarket",
+    "ikea",
 ]
 current_location = "home"
 travel_costs = {
@@ -34,30 +41,56 @@ travel_costs = {
     "petrol pump": 8,
     "grocery store": 3,
     "supermarket": 7,
+    "ikea": 7,
 }
 
+supermarket_items = {}
+grocery_items = {}
+inventory_items = {}
 
-def intro():
-    print("Welcome to The Millionaire Game!!")
-    print(f"In this game, you will have to earn a million dollars and retire before you are {RETIREMENT_AGE} years old.")
-    print(f"You will start the game with $1000. Choose your career wisely. Good Luck!")
+# Print welcome message and game instructions
+print("Welcome to The Millionaire Game!!")
+print(
+    f"In this game, you will have to earn a million dollars and retire before you are {RETIREMENT_AGE} years old."
+)
+print(f"You will start the game with $1000. Choose your career wisely. Good Luck!")
+
+
+def get_user_input(prompt, valid_choices, value_type):
+    """Gets user input with validation."""
+    while True:
+        user_input = input()
+        if value_type == "int":
+            user_input = int(input(prompt))
+        elif value_type == "str":
+            user_input == str(input(prompt))
+        if value_type == "str" and user_input.lower() in valid_choices:
+            return user_input.lower()
+        elif value_type == "int" and user_input in valid_choices:
+            return user_input
+        else:
+            print(f"That choice is not valid. Please try again.")
 
 
 def career_chooser():
+    """Allows the user to choose a career."""
     global current_career
     print("To earn a million dollars, you will have to get a job")
     print("The available career choices are: ")
     for career in careers:
         print(career)
     while True:
-        career_choice = str(input("Please enter your choice: "))
-        if career_choice.lower() in lower_case_careers:
-            current_career = career_choice.lower()
+        career_choice = get_user_input("Please enter your choice: ", lower_case_careers)
+        if career_choice in lower_case_careers:
+            current_career = career_choice
             break
         else:
-            print("The career you entered is not valid. Please try again.")
+            print(f"The {career_choice} you entered is not valid. Please try again.")
+    print(f"Your career choice is {current_career}.")
+    return True
 
 
+# Set the risk factor based on the chosen career
 def get_job_stability(current_career):
     global risk
     if current_career in low_risk_careers:
@@ -75,49 +108,49 @@ def get_house_options(num_of_options):
     min_rent_furnished = 800
     max_rent_furnished = 2000
 
-    for _ in range(num_of_options):
+    for i in range(num_of_options):
         num_rooms = random.choice(room_options)
         is_furnished = random.choice(furnished_options)
-        rent = random.randint(min_rent_furnished if is_furnished else min_rent,
-                              max_rent_furnished if is_furnished else max_rent)
+        if is_furnished:
+            rent = random.randint(min_rent_furnished, max_rent_furnished)
+        else:
+            rent = random.randint(min_rent, max_rent)
 
-        house_option = {"num_rooms": num_rooms, "is_furnished": is_furnished, "rent": rent}
+        house_option = [num_rooms, is_furnished, rent]
         house_options.append(house_option)
 
     return house_options
 
 
-def get_house():
-    global day
+def get_house(day):
     house_options = get_house_options(NUM_HOUSE_OPTIONS)
-    print("Firstly, you will have to have a house. You can rent a house first and then later in the game buy it. "
-          "It will take the broker around two days to search for a house.")
+    print(
+        "Firstly, you will have to get a house. You can rent a house first and then later in the game you can buy it. It will take the broker around two days for search for a house."
+    )
+    day += 2
     print("The available house options are: ")
-    day += 1
-    for i, house in enumerate(house_options, 1):
-        print(f"House {i}: {house}")
-
-    while True:
-        house_choice_num = int(input("Please enter your house choice number [1, 2, 3, 4, 5]: "))
-        if 1 <= house_choice_num <= NUM_HOUSE_OPTIONS:
-            selected_house = house_options[house_choice_num - 1]
-            print(f"Your house choice is {selected_house}.")
-            break
-        else:
-            print("The house you entered is not valid. Please try again.")
-
-    return selected_house
+    for house in house_options:
+        print(
+            f"House 1 - Rent: {house[-1]}, Is Furnished: {house[1]}, Number of Rooms:{house[0]}"
+        )
+    print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
+    house_choice_num = get_user_input(
+        "Please enter your house choice number[1, 2, 3, 4, 5]: ", [1, 2, 3, 4, 5], "int"
+    )
+    house = house_options[house_choice_num - 1]
+    return house
 
 
+# Convert twenty-four hour format to twelve hour format
 def twenty_four_to_twelve_hour(time):
     hours, minutes = divmod(time, 100)
     time_period = "AM" if hours < 12 else "PM"
     if hours > 12:
         hours -= 12
-    twelve_hour_time = f"{int(hours):02d}:{minutes:02d} {time_period}"
-    return twelve_hour_time
+    return f"{int(hours):02d}:{minutes:02d} {time_period}"
 
 
+# Book a cab to the specified destination and update the money
 def book_cab(money, destination):
     if destination not in places:
         print(f"Sorry, {destination} is not a valid destination.")
@@ -133,35 +166,88 @@ def book_cab(money, destination):
         money -= cost_of_travel
         print(f"Successfully booked a cab to {destination}! Remaining money: {money}")
     else:
-        print(f"Insufficient funds. You need at least {cost_of_travel} money to travel to {destination}.")
+        print(
+            f"Insufficient funds. You need at least {cost_of_travel} money to travel to {destination}."
+        )
 
 
+def buy(grocery_items, supermarket_items, money):
+    while True:
+        shop_type = get_user_input(
+            "Please enter the shop which you want to visit[supermarket, grocery store]",
+            ["supermarket", "grocery store"],
+            "str",
+        )
+        if shop_type.lower() == "supermarket":
+            book_cab(money, "supermarket")
+            print("You can buy the following items: ")
+            options = supermarket_items.keys()
+            price = supermarket_items.values()
+        elif shop_type.lower() == "grocery store":
+            book_cab(money, "grocery_items")
+            print("You can buy the following items:")
+            options = grocery_items.keys()
+            price = grocery_items.values()
+
+        for item in options:
+            print(f"{item.title()}: ${price}")
+        options.append("exit")
+        choice = get_user_input(
+            "Please enter the item you want to buy or exit to leave the shop: ",
+            options,
+            "str",
+        )
+        if choice.lower() == "exit":
+           break
+        else:
+            money -= supermarket_items[choice.lower()]
+            inventory_items[item] += 1
+
+
+def setup_house(selected_house):
+    isFurnished = selected_house[1]
+    if isFurnished:
+        print(
+            "Your house is already furnished. But you will have to buy some essentials like food, clothes, etc."
+        )
+        print("To buy that you will have to go to a shop.")
+        book_cab(money, "supermarket")
+        buy()
+        # TODO: To be completed
+
+
+# Simulate work by updating the time
 def work():
     global time
     print("Working")
-    time_taken = 800 / work_efficiency 
+    time_taken = WORK_TIME * work_efficiency
+    minutes += time_taken
+    hours += minutes // 60
+    minutes = minutes % 60
     time += time_taken
 
 
 def working_day():
     global current_location
     if day == 0 and current_career != "startup founder":
-        print("This is your first working day. You currently don't have any means of transport. You can take a cab.")
+        print(
+            "This is your first working day. You currently don't have any means of transport. You can take a cab."
+        )
         book_cab(money, "office")
         print("Now you can start working.")
         work()
 
- 
         print(f"It's {twenty_four_to_twelve_hour(time)} in the evening.")
         current_location = "office"
 
+
 def main():
-    intro()
     career_chooser()
     get_job_stability(current_career)
-    selected_house = get_house()
+    global selected_house
+    selected_house = get_house(day)
+    setup_house(selected_house)
     print(f"Selected house details: {selected_house}")
-    print(f"It's {twenty_four_to_twelve_hour(time)} now.")
     working_day()
 
 
