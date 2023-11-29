@@ -198,7 +198,7 @@ def buy(grocery_items, supermarket_items, money):
             "str",
         )
         if choice.lower() == "exit":
-           break
+            break
         else:
             money -= supermarket_items[choice.lower()]
             inventory_items[item] += 1
@@ -211,9 +211,10 @@ def setup_house(selected_house):
             "Your house is already furnished. But you will have to buy some essentials like food, clothes, etc."
         )
         print("To buy that you will have to go to a shop.")
-        book_cab(money, "supermarket")
         buy()
-        # TODO: To be completed
+        print("Your house is now ready to move in.")
+    elif not isFurnished:
+        print("Your house is not ready to move in. You will need to buy furniture.")
 
 
 # Simulate work by updating the time
