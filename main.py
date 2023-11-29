@@ -46,6 +46,7 @@ travel_costs = {
 
 supermarket_items = {}
 grocery_items = {}
+ikea_items = {}
 inventory_items = {}
 
 # Print welcome message and game instructions
@@ -175,7 +176,7 @@ def buy(grocery_items, supermarket_items, money):
     while True:
         shop_type = get_user_input(
             "Please enter the shop which you want to visit[supermarket, grocery store]",
-            ["supermarket", "grocery store"],
+            ["supermarket", "grocery store", "ikea"],
             "str",
         )
         if shop_type.lower() == "supermarket":
@@ -188,7 +189,11 @@ def buy(grocery_items, supermarket_items, money):
             print("You can buy the following items:")
             options = grocery_items.keys()
             price = grocery_items.values()
-
+        elif shop_type.lower() == "ikea":
+            book_cab(money, "ikea_items")
+            print("You can buy the following items:")
+            options = ikea_items.keys()
+            price = ikea_items.values()
         for item in options:
             print(f"{item.title()}: ${price}")
         options.append("exit")
@@ -215,6 +220,9 @@ def setup_house(selected_house):
         print("Your house is now ready to move in.")
     elif not isFurnished:
         print("Your house is not ready to move in. You will need to buy furniture.")
+        print("To buy furniture you will have to go to ikea and to buy essentials like food, clothes, etc.")
+        buy()
+        print("Your house is now ready to move in.")
 
 
 # Simulate work by updating the time
