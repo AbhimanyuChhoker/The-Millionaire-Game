@@ -23,18 +23,9 @@ age = 18
 years_before_retirement = RETIREMENT_AGE - age
 
 # Locations and travel costs
-# TODO: Combine both travel costs and places into one dict
-places = [
-    "home",
-    "office",
-    "friend's house",
-    "petrol pump",
-    "grocery store",
-    "supermarket",
-    "ikea",
-]
+
 current_location = "home"
-travel_costs = {
+places = {
     "home": 0,
     "office": 10,
     "friend's house": 5,
@@ -44,7 +35,42 @@ travel_costs = {
     "ikea": 7,
 }
 
-supermarket_items = {}
+supermarket_prices = {
+    "t-shirt": 15.00,
+    "jeans": 25.00,
+    "sweater": 30.00,
+    "shoes": 40.00,
+    "hat": 10.00,
+    "socks": 5.00,
+    "jacket": 45.00,
+    "dress": 35.00,
+    "scarf": 12.00,
+    "soap": 3.00,
+    "toothbrush": 2.50,
+    "toothpaste": 2.00,
+    "shampoo": 5.00,
+    "conditioner": 4.00,
+    "razor": 4.50,
+    "towel": 8.00,
+    "coffee": 6.00,
+    "tea": 4.00,
+    "bread": 3.50,
+    "butter": 3.00,
+    "jam": 3.50,
+    "yogurt": 1.50,
+    "cereal": 4.00,
+    "toilet paper": 1.75,
+    "laundry detergent": 5.50,
+    "dish soap": 2.50,
+    "broom": 10.00,
+    "trash bags": 3.50,
+    "light bulbs": 1.00,
+    "batteries": 4.00,
+    "band-aids": 1.25,
+    "pain reliever": 3.00,
+    "vitamins": 7.00
+}
+
 grocery_items = {}
 ikea_items = {}
 inventory_items = {}
@@ -153,7 +179,7 @@ def twenty_four_to_twelve_hour(time):
 
 # Book a cab to the specified destination and update the money
 def book_cab(money, destination):
-    if destination not in places:
+    if destination not in places.keys():
         print(f"Sorry, {destination} is not a valid destination.")
         return
 
@@ -161,7 +187,7 @@ def book_cab(money, destination):
         print("You are already at your destination.")
         return
 
-    cost_of_travel = travel_costs[destination]
+    cost_of_travel = places[destination]
 
     if money >= cost_of_travel:
         money -= cost_of_travel
@@ -220,7 +246,9 @@ def setup_house(selected_house):
         print("Your house is now ready to move in.")
     elif not isFurnished:
         print("Your house is not ready to move in. You will need to buy furniture.")
-        print("To buy furniture you will have to go to ikea and to buy essentials like food, clothes, etc.")
+        print(
+            "To buy furniture you will have to go to ikea and to buy essentials like food, clothes, etc."
+        )
         buy()
         print("Your house is now ready to move in.")
 
