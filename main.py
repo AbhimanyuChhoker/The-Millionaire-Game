@@ -70,7 +70,6 @@ supermarket_prices = {
     "vitamins": 7
 }
 
-grocery_items = {}
 ikea_items = {}
 inventory_items = {}
 
@@ -197,24 +196,21 @@ def book_cab(money, destination):
         )
 
 
-def buy(grocery_items, supermarket_items, money):
+def buy( supermarket_items, money):
     while True:
         shop_type = get_user_input(
             "Please enter the shop which you want to visit[supermarket, grocery store]",
-            ["supermarket", "grocery store", "ikea"],
+            ["supermarket", "ikea"],
             "str",
         )
         if shop_type.lower() == "supermarket":
+            shop_type = "supermarket"
             book_cab(money, "supermarket")
             print("You can buy the following items: ")
             options = supermarket_items.keys()
             price = supermarket_items.values()
-        elif shop_type.lower() == "grocery store":
-            book_cab(money, "grocery_items")
-            print("You can buy the following items:")
-            options = grocery_items.keys()
-            price = grocery_items.values()
         elif shop_type.lower() == "ikea":
+            shop_type = "ikea"
             book_cab(money, "ikea_items")
             print("You can buy the following items:")
             options = ikea_items.keys()
@@ -230,7 +226,7 @@ def buy(grocery_items, supermarket_items, money):
         if choice.lower() == "exit":
             break
         else:
-            money -= supermarket_items[choice.lower()]
+            money -= shop_type[choice.lower()]
             inventory_items[item] += 1
 
 
