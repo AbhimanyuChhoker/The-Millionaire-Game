@@ -35,7 +35,7 @@ places = {
     "ikea": 7,
 }
 
-supermarket_prices = {
+supermarket_items = {
     "t-shirt": 25,
     "jeans": 25,
     "sweater": 30,
@@ -67,10 +67,21 @@ supermarket_prices = {
     "batteries": 4,
     "band-aids": 1,
     "pain reliever": 3,
-    "vitamins": 7
+    "vitamins": 7,
 }
-
-ikea_items = {}
+ikea_items = {
+    "table": 150,
+    "chair": 50,
+    "sofa": 500,
+    "bookshelf": 80,
+    "shoerack": 40,
+    "bed": 300,
+    "dining table": 250,
+    "cupboard": 200,
+    "tv furniture": 180,
+    "lighting": 30,
+    "dressers": 120,
+}
 inventory_items = {}
 
 # Print welcome message and game instructions
@@ -196,7 +207,7 @@ def book_cab(money, destination):
         )
 
 
-def buy( supermarket_items, money):
+def buy(supermarket_items, money):
     while True:
         shop_type = get_user_input(
             "Please enter the shop which you want to visit[supermarket, grocery store]",
