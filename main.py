@@ -96,12 +96,12 @@ print(f"You will start the game with $1000. Choose your career wisely. Good Luck
 
 def get_user_input(prompt, valid_choices, value_type):
     """Gets user input with validation."""
+    user_input = ""
     while True:
-        user_input = input()
         if value_type == "int":
             user_input = int(input(prompt))
         elif value_type == "str":
-            user_input == str(input(prompt))
+            user_input = str(input(prompt))
         if value_type == "str" and user_input.lower() in valid_choices:
             return user_input.lower()
         elif value_type == "int" and user_input in valid_choices:
@@ -110,13 +110,14 @@ def get_user_input(prompt, valid_choices, value_type):
             print(f"That choice is not valid. Please try again.")
 
 
+
 def career_chooser(current_career):
     """Allows the user to choose a career."""
     print("To earn a million dollars, you will have to get a job")
     print("The available career choices are: ")
     for career in careers:
         print(career)
-    current_career = get_user_input("Enter your choice: ", careers, "str")
+    current_career = get_user_input("Enter your choice: ", lower_case_careers, "str")
     print(f"Your career choice is {current_career}.")
 
 
@@ -159,10 +160,12 @@ def get_house(day):
     )
     day += 2
     print("The available house options are: ")
+    i = 1
     for house in house_options:
         print(
-            f"House {house_options[house+1]} - Rent: {house[-1]}, Is Furnished: {house[1]}, Number of Rooms:{house[0]}"
+            f"House {i} - Rent: {house[-1]}, Is Furnished: {house[1]}, Number of Rooms:{house[0]}"
         )
+        i += 1
     house_choice_num = get_user_input(
         "Please enter your house choice number[1, 2, 3, 4, 5]: ", [1, 2, 3, 4, 5], "int"
     )
@@ -200,7 +203,7 @@ def book_cab(money, destination):
         )
 
 
-def buy(supermarket_items, money):
+def buy(supermarket_items, furniture_items, money):
     while True:
         shop_type = get_user_input(
             "Please enter the shop which you want to visit[supermarket, grocery store]",
@@ -217,11 +220,10 @@ def buy(supermarket_items, money):
             shop_type = "ikea"
             book_cab(money, "ikea_items")
             print("You can buy the following items:")
-            options = ikea_items.keys()
-            price = ikea_items.values()
+            options = furniture_items.keys()
+            price = furniture_items.values()
         for item in options:
             print(f"{item.title()}: ${price}")
-        options.append("exit")
         choice = get_user_input(
             "Please enter the item you want to buy or exit to leave the shop: ",
             options,
@@ -248,7 +250,7 @@ def setup_house(selected_house):
         print(
             "To buy furniture you will have to go to ikea and to buy essentials like food, clothes, etc."
         )
-        buy()
+        buy(supermarket_items, furniture_items, money)
         print("Your house is now ready to move in.")
 
 
@@ -278,7 +280,7 @@ def working_day():
 
 
 def main():
-    career_chooser()
+    career_chooser(current_career)
     get_job_stability(current_career)
     global selected_house
     selected_house = get_house(day)
