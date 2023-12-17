@@ -5,7 +5,7 @@ RETIREMENT_AGE = 60
 NUM_HOUSE_OPTIONS = 5
 WORK_TIME = 8
 
-# Initial game state
+# Initial game stats
 money = 1000
 happiness = 100
 energy = 100
@@ -14,7 +14,9 @@ work_efficiency = 1
 time = 700
 current_career = "jobless"
 careers = ["Startup founder", "Software Developer"]
+#TODO: Remove lower case careers
 lower_case_careers = ["startup founder", "software developer"]
+#TODO: Make risk functionality efficient
 low_risk_careers = ["software developer"]
 high_risk_careers = ["startup founder"]
 risk = 0
@@ -69,7 +71,7 @@ supermarket_items = {
     "pain reliever": 3,
     "vitamins": 7,
 }
-ikea_items = {
+furniture_items = {
     "table": 150,
     "chair": 50,
     "sofa": 500,
@@ -108,22 +110,14 @@ def get_user_input(prompt, valid_choices, value_type):
             print(f"That choice is not valid. Please try again.")
 
 
-def career_chooser():
+def career_chooser(current_career):
     """Allows the user to choose a career."""
-    global current_career
     print("To earn a million dollars, you will have to get a job")
     print("The available career choices are: ")
     for career in careers:
         print(career)
-    while True:
-        career_choice = get_user_input("Please enter your choice: ", lower_case_careers)
-        if career_choice in lower_case_careers:
-            current_career = career_choice
-            break
-        else:
-            print(f"The {career_choice} you entered is not valid. Please try again.")
+    current_career = get_user_input("Enter your choice: ", careers, "str")
     print(f"Your career choice is {current_career}.")
-    return True
 
 
 # Set the risk factor based on the chosen career
@@ -167,9 +161,8 @@ def get_house(day):
     print("The available house options are: ")
     for house in house_options:
         print(
-            f"House 1 - Rent: {house[-1]}, Is Furnished: {house[1]}, Number of Rooms:{house[0]}"
+            f"House {house_options[house+1]} - Rent: {house[-1]}, Is Furnished: {house[1]}, Number of Rooms:{house[0]}"
         )
-    print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
     house_choice_num = get_user_input(
         "Please enter your house choice number[1, 2, 3, 4, 5]: ", [1, 2, 3, 4, 5], "int"
     )
@@ -290,7 +283,6 @@ def main():
     global selected_house
     selected_house = get_house(day)
     setup_house(selected_house)
-    print(f"Selected house details: {selected_house}")
     working_day()
 
 
