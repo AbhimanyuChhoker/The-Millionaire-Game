@@ -14,9 +14,9 @@ work_efficiency = 1
 time = 700
 current_career = "jobless"
 careers = ["Startup founder", "Software Developer"]
-#TODO: Remove lower case careers
+# TODO: Remove lower case careers
 lower_case_careers = ["startup founder", "software developer"]
-#TODO: Make risk functionality efficient
+# TODO: Make risk functionality efficient
 low_risk_careers = ["software developer"]
 high_risk_careers = ["startup founder"]
 risk = 0
@@ -34,7 +34,7 @@ places = {
     "petrol pump": 8,
     "grocery store": 3,
     "supermarket": 7,
-    "ikea": 7,
+    "furniture": 7,
 }
 
 supermarket_items = {
@@ -108,7 +108,6 @@ def get_user_input(prompt, valid_choices, value_type):
             return user_input
         else:
             print(f"That choice is not valid. Please try again.")
-
 
 
 def career_chooser(current_career):
@@ -206,8 +205,8 @@ def book_cab(money, destination):
 def buy(supermarket_items, furniture_items, money):
     while True:
         shop_type = get_user_input(
-            "Please enter the shop which you want to visit[supermarket, grocery store]",
-            ["supermarket", "ikea"],
+            f"Please enter the shop which you want to visit first [supermarket, furniture]:",
+            ["supermarket", "furniture"],
             "str",
         )
         if shop_type.lower() == "supermarket":
@@ -216,24 +215,43 @@ def buy(supermarket_items, furniture_items, money):
             print("You can buy the following items: ")
             options = supermarket_items.keys()
             price = supermarket_items.values()
-        elif shop_type.lower() == "ikea":
-            shop_type = "ikea"
-            book_cab(money, "ikea_items")
+            for item in options:
+                print(f"{item}: {furniture_items[item]}")
+            choice = get_user_input(
+                "Please enter the item you want to buy or exit to leave the shop: ",
+                [options, "exit"],
+                "str",
+            )
+            if choice.lower() == "exit":
+                break
+            else:
+                money -= shop_type[choice.lower()]
+                if item in inventory_items:
+                    inventory_items[item] += 1
+                else:
+                    inventory_items[item] = 1
+        elif shop_type.lower() == "furniture":
+            shop_type = "furniture"
+            book_cab(money, "furniture")
             print("You can buy the following items:")
             options = furniture_items.keys()
-            price = furniture_items.values()
-        for item in options:
-            print(f"{item.title()}: ${price}")
-        choice = get_user_input(
-            "Please enter the item you want to buy or exit to leave the shop: ",
-            options,
-            "str",
-        )
-        if choice.lower() == "exit":
-            break
-        else:
-            money -= shop_type[choice.lower()]
-            inventory_items[item] += 1
+            for item in options:
+                print(f"{item}: {furniture_items[item]}")
+            choice = get_user_input(
+                "Please enter the item you want to buy or exit to leave the shop: ",
+                [options, "exit"],
+                "str",
+            )
+            if choice.lower() == "exit":
+                break
+            else:
+                money -= shop_type[choice.lower()]
+                if item in inventory_items:
+                    inventory_items[item] += 1
+                else:
+                    inventory_items[item] = 1
+                print(inventory_items)
+                break
 
 
 def setup_house(selected_house):
@@ -248,7 +266,7 @@ def setup_house(selected_house):
     elif not isFurnished:
         print("Your house is not ready to move in. You will need to buy furniture.")
         print(
-            "To buy furniture you will have to go to ikea and to buy essentials like food, clothes, etc."
+            "To buy furniture you will have to go to furniture and to buy essentials like food, clothes, etc. you will have to go to a supermarket."
         )
         buy(supermarket_items, furniture_items, money)
         print("Your house is now ready to move in.")
