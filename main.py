@@ -5,7 +5,7 @@ RETIREMENT_AGE = 60
 NUM_HOUSE_OPTIONS = 5
 WORK_TIME = 8
 
-# Initial game state
+# Initial game stats
 money = 1000
 happiness = 100
 energy = 100
@@ -14,7 +14,9 @@ work_efficiency = 1
 time = 700
 current_career = "jobless"
 careers = ["Startup founder", "Software Developer"]
+# TODO: Remove lower case careers
 lower_case_careers = ["startup founder", "software developer"]
+# TODO: Make risk functionality efficient
 low_risk_careers = ["software developer"]
 high_risk_careers = ["startup founder"]
 risk = 0
@@ -23,29 +25,65 @@ age = 18
 years_before_retirement = RETIREMENT_AGE - age
 
 # Locations and travel costs
-# TODO: Combine both travel costs and places into one dict
-places = [
-    "home",
-    "office",
-    "friend's house",
-    "petrol pump",
-    "grocery store",
-    "supermarket",
-    "ikea",
-]
+
 current_location = "home"
-travel_costs = {
+places = {
     "home": 0,
     "office": 10,
     "friend's house": 5,
     "petrol pump": 8,
     "grocery store": 3,
     "supermarket": 7,
-    "ikea": 7,
+    "furniture": 7,
 }
 
-supermarket_items = {}
-grocery_items = {}
+supermarket_items = {
+    "t-shirt": 25,
+    "jeans": 25,
+    "sweater": 30,
+    "shoes": 40,
+    "hat": 10,
+    "socks": 5,
+    "jacket": 45,
+    "dress": 35,
+    "scarf": 12,
+    "soap": 3,
+    "toothbrush": 2,
+    "toothpaste": 2,
+    "shampoo": 5,
+    "conditioner": 4,
+    "razor": 4,
+    "coffee": 10,
+    "tea": 4,
+    "bread": 3,
+    "butter": 3,
+    "jam": 3,
+    "yogurt": 1,
+    "cereal": 4,
+    "toilet paper": 1,
+    "laundry detergent": 5,
+    "dish soap": 2,
+    "broom": 10,
+    "trash bags": 3,
+    "light bulbs": 1,
+    "batteries": 4,
+    "band-aids": 1,
+    "pain reliever": 3,
+    "vitamins": 7,
+}
+furniture_items = {
+    "table": 150,
+    "chair": 50,
+    "sofa": 500,
+    "bookshelf": 80,
+    "shoerack": 40,
+    "bed": 300,
+    "dining table": 250,
+    "cupboard": 200,
+    "tv furniture": 180,
+    "lighting": 30,
+    "dressers": 120,
+}
 inventory_items = {}
 
 # Print welcome message and game instructions
@@ -58,12 +96,12 @@ print(f"You will start the game with $1000. Choose your career wisely. Good Luck
 
 def get_user_input(prompt, valid_choices, value_type):
     """Gets user input with validation."""
+    user_input = ""
     while True:
-        user_input = input()
         if value_type == "int":
             user_input = int(input(prompt))
         elif value_type == "str":
-            user_input == str(input(prompt))
+            user_input = str(input(prompt))
         if value_type == "str" and user_input.lower() in valid_choices:
             return user_input.lower()
         elif value_type == "int" and user_input in valid_choices:
@@ -72,22 +110,14 @@ def get_user_input(prompt, valid_choices, value_type):
             print(f"That choice is not valid. Please try again.")
 
 
-def career_chooser():
+def career_chooser(current_career):
     """Allows the user to choose a career."""
-    global current_career
     print("To earn a million dollars, you will have to get a job")
     print("The available career choices are: ")
     for career in careers:
         print(career)
-    while True:
-        career_choice = get_user_input("Please enter your choice: ", lower_case_careers)
-        if career_choice in lower_case_careers:
-            current_career = career_choice
-            break
-        else:
-            print(f"The {career_choice} you entered is not valid. Please try again.")
+    current_career = get_user_input("Enter your choice: ", lower_case_careers, "str")
     print(f"Your career choice is {current_career}.")
-    return True
 
 
 # Set the risk factor based on the chosen career
@@ -129,11 +159,12 @@ def get_house(day):
     )
     day += 2
     print("The available house options are: ")
+    i = 1
     for house in house_options:
         print(
-            f"House 1 - Rent: {house[-1]}, Is Furnished: {house[1]}, Number of Rooms:{house[0]}"
+            f"House {i} - Rent: {house[-1]}, Is Furnished: {house[1]}, Number of Rooms:{house[0]}"
         )
-    print("Please enter your house choice number[1, 2, 3, 4, 5]: ")
+        i += 1
     house_choice_num = get_user_input(
         "Please enter your house choice number[1, 2, 3, 4, 5]: ", [1, 2, 3, 4, 5], "int"
     )
@@ -152,7 +183,7 @@ def twenty_four_to_twelve_hour(time):
 
 # Book a cab to the specified destination and update the money
 def book_cab(money, destination):
-    if destination not in places:
+    if destination not in places.keys():
         print(f"Sorry, {destination} is not a valid destination.")
         return
 
@@ -160,7 +191,7 @@ def book_cab(money, destination):
         print("You are already at your destination.")
         return
 
-    cost_of_travel = travel_costs[destination]
+    cost_of_travel = places[destination]
 
     if money >= cost_of_travel:
         money -= cost_of_travel
@@ -171,37 +202,57 @@ def book_cab(money, destination):
         )
 
 
-def buy(grocery_items, supermarket_items, money):
+def buy(supermarket_items, furniture_items, money, inventory_items):
     while True:
         shop_type = get_user_input(
-            "Please enter the shop which you want to visit[supermarket, grocery store]",
-            ["supermarket", "grocery store"],
+            f"Please enter the shop which you want to visit first [supermarket, furniture] or exit to leave the shop:",
+            ["supermarket", "furniture", "exit"],
             "str",
         )
         if shop_type.lower() == "supermarket":
-            book_cab(money, "supermarket")
-            print("You can buy the following items: ")
-            options = supermarket_items.keys()
-            price = supermarket_items.values()
-        elif shop_type.lower() == "grocery store":
-            book_cab(money, "grocery_items")
-            print("You can buy the following items:")
-            options = grocery_items.keys()
-            price = grocery_items.values()
-
-        for item in options:
-            print(f"{item.title()}: ${price}")
-        options.append("exit")
-        choice = get_user_input(
-            "Please enter the item you want to buy or exit to leave the shop: ",
-            options,
-            "str",
-        )
-        if choice.lower() == "exit":
-           break
-        else:
-            money -= supermarket_items[choice.lower()]
-            inventory_items[item] += 1
+            while True:
+                book_cab(money, "supermarket")
+                print("You can buy the following items: ")
+                options = supermarket_items.keys()
+                for item in options:
+                    print(f"{item}: {supermarket_items[item]}")
+                choice = get_user_input(
+                    "Please enter the item you want to buy or exit to leave the shop: ",
+                    [item.lower() for item in options] + ["exit"],
+                    "str",
+                )
+                if choice.lower() == "exit":
+                    break
+                else:
+                    money -= supermarket_items[choice]
+                    if choice in inventory_items:
+                        inventory_items[choice] += 1
+                    else:
+                        inventory_items[choice] = 1
+                print(inventory_items)
+        elif shop_type.lower() == "furniture":
+            while True:
+                book_cab(money, "furniture")
+                print("You can buy the following items:")
+                options = furniture_items.keys()
+                for item in options:
+                    print(f"{item}: {furniture_items[item]}")
+                choice = get_user_input(
+                    "Please enter the item you want to buy or exit to leave the shop: ",
+                    [item.lower() for item in options] + ["exit"],
+                    "str",
+                )
+                if choice.lower() == "exit":
+                    break
+                else:
+                    money -= supermarket_items[choice]
+                    if choice in inventory_items:
+                        inventory_items[choice] += 1
+                    else:
+                        inventory_items[choice] = 1
+                print(inventory_items)
+        elif shop_type.lower() == "exit":
+            break
 
 
 def setup_house(selected_house):
@@ -211,9 +262,15 @@ def setup_house(selected_house):
             "Your house is already furnished. But you will have to buy some essentials like food, clothes, etc."
         )
         print("To buy that you will have to go to a shop.")
-        book_cab(money, "supermarket")
-        buy()
-        # TODO: To be completed
+        buy(supermarket_items, furniture_items, money, inventory_items)
+        print("Your house is now ready to move in.")
+    elif not isFurnished:
+        print("Your house is not ready to move in. You will need to buy furniture.")
+        print(
+            "To buy furniture you will have to go to furniture and to buy essentials like food, clothes, etc. you will have to go to a supermarket."
+        )
+        buy(supermarket_items, furniture_items, money, inventory_items)
+        print("Your house is now ready to move in.")
 
 
 # Simulate work by updating the time
@@ -242,12 +299,11 @@ def working_day():
 
 
 def main():
-    career_chooser()
+    career_chooser(current_career)
     get_job_stability(current_career)
     global selected_house
     selected_house = get_house(day)
     setup_house(selected_house)
-    print(f"Selected house details: {selected_house}")
     working_day()
 
 
