@@ -202,56 +202,57 @@ def book_cab(money, destination):
         )
 
 
-def buy(supermarket_items, furniture_items, money):
+def buy(supermarket_items, furniture_items, money, inventory_items):
     while True:
         shop_type = get_user_input(
-            f"Please enter the shop which you want to visit first [supermarket, furniture]:",
-            ["supermarket", "furniture"],
+            f"Please enter the shop which you want to visit first [supermarket, furniture] or exit to leave the shop:",
+            ["supermarket", "furniture", "exit"],
             "str",
         )
         if shop_type.lower() == "supermarket":
-            shop_type = "supermarket"
-            book_cab(money, "supermarket")
-            print("You can buy the following items: ")
-            options = supermarket_items.keys()
-            price = supermarket_items.values()
-            for item in options:
-                print(f"{item}: {furniture_items[item]}")
-            choice = get_user_input(
-                "Please enter the item you want to buy or exit to leave the shop: ",
-                [options, "exit"],
-                "str",
-            )
-            if choice.lower() == "exit":
-                break
-            else:
-                money -= shop_type[choice.lower()]
-                if item in inventory_items:
-                    inventory_items[item] += 1
+            while True:
+                book_cab(money, "supermarket")
+                print("You can buy the following items: ")
+                options = supermarket_items.keys()
+                for item in options:
+                    print(f"{item}: {supermarket_items[item]}")
+                choice = get_user_input(
+                    "Please enter the item you want to buy or exit to leave the shop: ",
+                    [item.lower() for item in options] + ["exit"],
+                    "str",
+                )
+                if choice.lower() == "exit":
+                    break
                 else:
-                    inventory_items[item] = 1
-        elif shop_type.lower() == "furniture":
-            shop_type = "furniture"
-            book_cab(money, "furniture")
-            print("You can buy the following items:")
-            options = furniture_items.keys()
-            for item in options:
-                print(f"{item}: {furniture_items[item]}")
-            choice = get_user_input(
-                "Please enter the item you want to buy or exit to leave the shop: ",
-                [options, "exit"],
-                "str",
-            )
-            if choice.lower() == "exit":
-                break
-            else:
-                money -= shop_type[choice.lower()]
-                if item in inventory_items:
-                    inventory_items[item] += 1
-                else:
-                    inventory_items[item] = 1
+                    money -= supermarket_items[choice]
+                    if choice in inventory_items:
+                        inventory_items[choice] += 1
+                    else:
+                        inventory_items[choice] = 1
                 print(inventory_items)
-                break
+        elif shop_type.lower() == "furniture":
+            while True:
+                book_cab(money, "furniture")
+                print("You can buy the following items:")
+                options = furniture_items.keys()
+                for item in options:
+                    print(f"{item}: {furniture_items[item]}")
+                choice = get_user_input(
+                    "Please enter the item you want to buy or exit to leave the shop: ",
+                    [item.lower() for item in options] + ["exit"],
+                    "str",
+                )
+                if choice.lower() == "exit":
+                    break
+                else:
+                    money -= supermarket_items[choice]
+                    if choice in inventory_items:
+                        inventory_items[choice] += 1
+                    else:
+                        inventory_items[choice] = 1
+                print(inventory_items)
+        elif shop_type.lower() == "exit":
+            break
 
 
 def setup_house(selected_house):
@@ -261,14 +262,14 @@ def setup_house(selected_house):
             "Your house is already furnished. But you will have to buy some essentials like food, clothes, etc."
         )
         print("To buy that you will have to go to a shop.")
-        buy()
+        buy(supermarket_items, furniture_items, money, inventory_items)
         print("Your house is now ready to move in.")
     elif not isFurnished:
         print("Your house is not ready to move in. You will need to buy furniture.")
         print(
             "To buy furniture you will have to go to furniture and to buy essentials like food, clothes, etc. you will have to go to a supermarket."
         )
-        buy(supermarket_items, furniture_items, money)
+        buy(supermarket_items, furniture_items, money, inventory_items)
         print("Your house is now ready to move in.")
 
 
