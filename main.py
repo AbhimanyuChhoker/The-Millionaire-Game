@@ -11,7 +11,9 @@ happiness = 100
 energy = 100
 work_efficiency = 1
 
-time = 700
+minutes = 0
+hours = 7
+day = 0
 current_career = "jobless"
 careers = ["Startup founder", "Software Developer"]
 # TODO: Remove lower case careers
@@ -20,7 +22,6 @@ lower_case_careers = ["startup founder", "software developer"]
 low_risk_careers = ["software developer"]
 high_risk_careers = ["startup founder"]
 risk = 0
-day = 0
 age = 18
 years_before_retirement = RETIREMENT_AGE - age
 
@@ -76,7 +77,7 @@ furniture_items = {
     "chair": 50,
     "sofa": 500,
     "bookshelf": 80,
-    "shoerack": 40,
+    "shoerack": 100,
     "bed": 300,
     "dining table": 250,
     "cupboard": 200,
@@ -173,12 +174,12 @@ def get_house(day):
 
 
 # Convert twenty-four hour format to twelve hour format
-def twenty_four_to_twelve_hour(time):
-    hours, minutes = divmod(time, 100)
-    time_period = "AM" if hours < 12 else "PM"
-    if hours > 12:
-        hours -= 12
-    return f"{int(hours):02d}:{minutes:02d} {time_period}"
+def update_time(current_day, current_hours, current_minutes, duration_hours, duration_minutes):
+    total_minutes = current_hours * 60 + current_minutes
+    total_minutes += duration_hours * 60 + duration_minutes
+    current_day += total_minutes // (24 * 60)
+    current_hours, current_minutes = divmod(total_minutes % (24 * 60), 60)
+    return current_day, current_hours, current_minutes
 
 
 # Book a cab to the specified destination and update the money
@@ -245,7 +246,7 @@ def buy(supermarket_items, furniture_items, money, inventory_items):
                 if choice.lower() == "exit":
                     break
                 else:
-                    money -= supermarket_items[choice]
+                    money -= furniture_items[choice]
                     if choice in inventory_items:
                         inventory_items[choice] += 1
                     else:
@@ -272,31 +273,7 @@ def setup_house(selected_house):
         buy(supermarket_items, furniture_items, money, inventory_items)
         print("Your house is now ready to move in.")
 
-
-# Simulate work by updating the time
-def work():
-    global time
-    print("Working")
-    time_taken = WORK_TIME * work_efficiency
-    minutes += time_taken
-    hours += minutes // 60
-    minutes = minutes % 60
-    time += time_taken
-
-
-def working_day():
-    global current_location
-    if day == 0 and current_career != "startup founder":
-        print(
-            "This is your first working day. You currently don't have any means of transport. You can take a cab."
-        )
-        book_cab(money, "office")
-        print("Now you can start working.")
-        work()
-
-        print(f"It's {twenty_four_to_twelve_hour(time)} in the evening.")
-        current_location = "office"
-
+#TODO: Work function to be rewritten
 
 def main():
     career_chooser(current_career)
@@ -304,7 +281,6 @@ def main():
     global selected_house
     selected_house = get_house(day)
     setup_house(selected_house)
-    working_day()
 
 
 if __name__ == "__main__":
