@@ -3,7 +3,7 @@ import random
 
 RETIREMENT_AGE = 60
 NUM_HOUSE_OPTIONS = 5
-WORK_TIME = 8
+WORK_TIME = 60
 
 # Initial game stats
 money = 1000
@@ -279,6 +279,20 @@ def setup_house(selected_house):
         )
         buy(supermarket_items, furniture_items, money, inventory_items)
         print("Your house is now ready to move in.")
+
+
+def work():
+    print("Working...")
+    time_taken = WORK_TIME * work_efficiency
+    day, hours, minutes = update_time(day, hours, minutes, 0, time_taken)
+    print(f"It's {hours}:{minutes} now.")
+
+
+def first_day():
+    print("Today is your first day at work. Book a cab to go to your workplace.")
+    book_cab(money, "work")
+    print("You have reached your office, its time to start working.")
+    work()
 
 
 def main():
