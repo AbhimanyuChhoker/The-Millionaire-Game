@@ -122,12 +122,21 @@ def career_chooser(current_career):
 
 
 # Set the risk factor based on the chosen career
-def get_job_stability(current_career):
-    global risk
+def get_job_stability(current_career, risk):
     if current_career in low_risk_careers:
         risk = 0.1
     elif current_career in high_risk_careers:
         risk = 0.7
+
+
+def update_time(
+    current_day, current_hours, current_minutes, duration_hours, duration_minutes
+):
+    total_minutes = current_hours * 60 + current_minutes
+    total_minutes += duration_hours * 60 + duration_minutes
+    current_day += total_minutes // (24 * 60)
+    current_hours, current_minutes = divmod(total_minutes % (24 * 60), 60)
+    return current_day, current_hours, current_minutes
 
 
 def get_house_options(num_of_options):
@@ -153,12 +162,12 @@ def get_house_options(num_of_options):
     return house_options
 
 
-def get_house(day):
+def get_house(day, hours, minutes):
     house_options = get_house_options(NUM_HOUSE_OPTIONS)
     print(
         "Firstly, you will have to get a house. You can rent a house first and then later in the game you can buy it. It will take the broker around two days for search for a house."
     )
-    day += 2
+    day, hours, minutes = update_time(day, hours, minutes, 48, 0)
     print("The available house options are: ")
     i = 1
     for house in house_options:
@@ -173,16 +182,14 @@ def get_house(day):
     return house
 
 
-# Convert twenty-four hour format to twelve hour format
-def update_time(current_day, current_hours, current_minutes, duration_hours, duration_minutes):
-    total_minutes = current_hours * 60 + current_minutes
-    total_minutes += duration_hours * 60 + duration_minutes
-    current_day += total_minutes // (24 * 60)
-    current_hours, current_minutes = divmod(total_minutes % (24 * 60), 60)
-    return current_day, current_hours, current_minutes
-
-
 # Book a cab to the specified destination and update the money
+"""
+TODO:
+-Traffic Functionality
+-Time taken based on traffic
+"""
+
+
 def book_cab(money, destination):
     if destination not in places.keys():
         print(f"Sorry, {destination} is not a valid destination.")
@@ -273,13 +280,11 @@ def setup_house(selected_house):
         buy(supermarket_items, furniture_items, money, inventory_items)
         print("Your house is now ready to move in.")
 
-#TODO: Work function to be rewritten
 
 def main():
     career_chooser(current_career)
-    get_job_stability(current_career)
-    global selected_house
-    selected_house = get_house(day)
+    get_job_stability(current_career, risk)
+    selected_house = get_house(day, hours, minutes)
     setup_house(selected_house)
 
 
