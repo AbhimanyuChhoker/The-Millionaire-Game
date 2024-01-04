@@ -25,7 +25,7 @@ risk = 0
 age = 18
 years_before_retirement = RETIREMENT_AGE - age
 
-# Locations and travel costs
+# Locations and travel distance
 
 current_location = "home"
 places = {
@@ -37,6 +37,40 @@ places = {
     "supermarket": 7,
     "furniture": 7,
 }
+
+
+def calculate_ride_cost(distance, time_taken, surge_multiplier=1.5):
+    base_fare = 5
+    cost_per_km = 2
+    cost_per_minute = 0.5
+    surge_threshold = 5
+
+    # Apply surge pricing based on distance
+    if distance > surge_threshold:
+        final_cost = (
+            base_fare
+            + (distance * cost_per_km * surge_multiplier)
+            + (time_taken * cost_per_minute)
+        )
+    else:
+        final_cost = (
+            base_fare + (distance * cost_per_km) + (time_taken * cost_per_minute)
+        )
+
+    return final_cost
+
+
+def calculate_time_taken(distance, traffic_multiplier=random.randint(1.5, 6)):
+    minutes_per_km = 1 * traffic_multiplier
+
+
+def book_cab(valid_places, money):
+    location = get_user_input("Where would you like to go?", valid_places, "str")
+    distance = valid_places[location]
+    time_taken = calculate_time_taken(distance)
+    cost = calculate_ride_cost(distance, time_taken)
+    money -= cost
+
 
 supermarket_items = {
     "t-shirt": 25,
