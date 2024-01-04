@@ -216,34 +216,6 @@ def get_house(day, hours, minutes):
     return house
 
 
-# Book a cab to the specified destination and update the money
-"""
-TODO:
--Traffic Functionality
--Time taken based on traffic
-"""
-
-
-def book_cab(money, destination):
-    if destination not in places.keys():
-        print(f"Sorry, {destination} is not a valid destination.")
-        return
-
-    if destination == current_location:
-        print("You are already at your destination.")
-        return
-
-    cost_of_travel = places[destination]
-
-    if money >= cost_of_travel:
-        money -= cost_of_travel
-        print(f"Successfully booked a cab to {destination}! Remaining money: {money}")
-    else:
-        print(
-            f"Insufficient funds. You need at least {cost_of_travel} money to travel to {destination}."
-        )
-
-
 def buy(supermarket_items, furniture_items, money, inventory_items):
     while True:
         shop_type = get_user_input(
