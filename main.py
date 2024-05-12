@@ -60,7 +60,9 @@ def calculate_ride_cost(distance, time_taken, surge_multiplier=1.5):
     return final_cost
 
 
-def calculate_time_taken(distance, traffic_multiplier=random.randint(1.5, 6)):
+def calculate_time_taken(distance, traffic_multiplier):
+    traffic_multiplier = random.randint(15, 60)
+    traffic_multiplier /= 10
     minutes_per_km = 1 * traffic_multiplier
 
 
